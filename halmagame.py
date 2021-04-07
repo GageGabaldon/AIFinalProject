@@ -1,11 +1,12 @@
 from tkinter import *
 import tkinter as tk
+from Board import Board
 import sys
 from PIL import Image, ImageTk
 
 class HalmaGame:
     
-    def __init__(self, boardSize, timeLimit, whatSide):
+    def __init__(self, board):
         # file names for button images
         self.redp_whites = "redpiece_whitesquare.JPG"
         self.redp_tans = "redpiece_tansquare.JPG"
@@ -18,11 +19,12 @@ class HalmaGame:
         self.blank_whites = "blank_whitesquare.JPG"
         self.blank_tans = "blank_tansquare.JPG"
         self.blank_greys = "blank_greysquare.JPG"
+        self.board = board
 
         # command line arguments given by main
-        self.bSize = boardSize
-        self.tLimit = timeLimit
-        self.hPlayer = whatSide
+        self.bSize = board.bSize
+        self.tLimit = board.timeLimit
+        self.hPlayer = board.whatSide
         self.filename = None
 
         # keep track of previously clicked buttons (since two spaces need to be clicked for move)
@@ -35,40 +37,9 @@ class HalmaGame:
         self.root.title("Halma Game") # window name
 
         # create blank board using getGameArray return
-        gameArray = self.getGameArray()
+        gameArray = board.boardArray
         self.createBoard(gameArray)
 
-    # builds GUI window
-    def getGameArray():
-        columnArray = []
-        rowArray = []
-        goalStates = []
-        if(self.bSize == 8):
-            redgoal = [(0, 7), (0, 6), (0, 5), (0, 4), (1, 5), (1, 6), (1, 7), (2, 6), (2, 7), (3, 7)]
-            greenGoal = [(4, 0), (5, 0), (6, 0), (7, 0), (5, 1), (6, 1), (7, 1), (6, 2), (7, 2), (7, 3)]
-        elif(self.bSize == 10):
-            return 1 # temporary
-        else:
-            return 2 # temporary
-
-        for col in range(0, self.bSize):
-            rowArray = []
-            for row in range(0, self.bSize):
-                if (row, col) in redgoal:
-                    boardInfo = PosInfo((row, col), True, "red", True)
-                    rowArray.append(boardInfo)
-
-                elif (row, col) in greenGoal:
-                    boardInfo = PosInfo((row, col), True, "green", True)
-                    rowArray.append(boardInfo)
-
-                else:
-                    boardInfo = PosInfo((row, col), False, "none", False)
-                    rowArray.append(boardInfo)
-
-            columnArray.append(rowArray)
-
-        return columnArray
     
     def createBoard(self, gameArray):
         # CREATE EMPTY BOARD
@@ -92,8 +63,6 @@ class HalmaGame:
                     else:
                         image = Image.open(self.blank_greys)
                 # tan squares
-                elif
-
                 # white squares
                 else: 
                     image = None
@@ -135,28 +104,24 @@ class HalmaGame:
     def statusString():
         pass
 
-class PosInfo:
-    def __init__(self, boardPos, piece, color, goal):
-        self.boardPos = boardPos
-        self.piece = piece
-        self.color = color
-        self.goal = goal
+    # sets the status string to be displayed to the user
+    def setStatusString():
+        pass
 
-    def getPos(self):
-        return self.boardPos
+    # updates the board based on what pieces have been moved at what coordinate and to what coordinate
+    def update():
+        pass
 
-    def hasPiece(self):
-        return self.piece
-
-    def pieceColor(self):
-        return self.color
-
-    def goal(self):
-        return self.goal
-
+    # returns the pos of the click
+    def getClicked():
+        pass
 
 def main():
-    game = HalmaGame()
+    size = 8
+    time = 1
+    whatSide = "green"
+    board = Board(size, time, whatSide)
+    game = HalmaGame(board)
     game.root.mainloop()
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ class Board:
         self.timeLimit = timeLimit
         self.bSize = boardSize
         self.boardArray = self.getGameArray()
-        self.playerPieces = whatSide
+        self.whatSide = whatSide
         self.redGoal = []
         self.greenGoal = []
         if(whatSide == "green"):
