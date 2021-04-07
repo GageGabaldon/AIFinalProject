@@ -1,4 +1,3 @@
-
 class Board:
     def __init__(self, boardSize, timeLimit, whatSide):
         self.gameWon = False
@@ -6,6 +5,8 @@ class Board:
         self.bSize = boardSize
         self.boardArray = self.getGameArray()
         self.playerPieces = whatSide
+        self.redGoal = []
+        self.greenGoal = []
         if(whatSide == "green"):
             self.computerPieces = "red"
         else:
@@ -27,27 +28,56 @@ class Board:
             rowArray = []
             for row in range(0, self.bSize):
                 if (row, col) in redgoal:
-                    boardInfo = PosInfo((row, col), True, "red", True)
+                    boardInfo = PosInfo((row, col), True, "red", True, "green")
                     rowArray.append(boardInfo)
+                    self.greenGoal.append(boardInfo)
 
                 elif (row, col) in greenGoal:
-                    boardInfo = PosInfo((row, col), True, "green", True)
+                    boardInfo = PosInfo((row, col), True, "green", True, "red")
                     rowArray.append(boardInfo)
-
+                    self.redGoal.append(boardInfo)
                 else:
-                    boardInfo = PosInfo((row, col), False, "none", False)
+                    boardInfo = PosInfo((row, col), False, "none", False, "none")
                     rowArray.append(boardInfo)
 
             columnArray.append(rowArray)
 
         return columnArray
 
+    def winCondition(self, color):
+        redWin = False
+        greenWin = False
+
+        redCounter = 0
+        numberOfRedGoals = len(self.redGoal)
+        for state in self.redGoal:
+            if state.goal():
+                redCounter += 1
+
+        greenCounter = 0
+        numberOfGreenGoals = len(self.greenGoal)
+        for state in self.greenGoal:
+            if state.goal():
+                greenCounter += 1
+
+        if(greenCounter == numberOfGreenGoals):
+            greenWin = True
+
+        if(redCounter == numberOfRedGoals):
+            redWin = True
+
+        if color == "green":
+            return greenWin
+        else:
+            return redWin
+
 class PosInfo:
-    def __init__(self, boardPos, piece, color, goal):
+    def __init__(self, boardPos, piece, color, goal, colorGoal):
         self.boardPos = boardPos
         self.piece = piece
         self.color = color
         self.goal = goal
+        self.colorGoal = colorGoal
 
     def getPos(self):
         return self.boardPos
@@ -59,4 +89,7 @@ class PosInfo:
         return self.color
 
     def goal(self):
-        return self.goal
+        if(self.colorGoal == self.color):
+            return True
+        else:
+            return False

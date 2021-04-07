@@ -4,6 +4,7 @@ from Player import Player
 from Computer import Computer
 
 class Main:
+
     # get the information from the user such as boardsisze, timelimit, which player moves first etc etc
     def __init__(self, size, timeLimit, whatSide):
         self.size = size
