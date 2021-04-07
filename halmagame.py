@@ -76,17 +76,17 @@ class HalmaGame:
 
                 # image now properly set, configure 
                 image.resize((10,10), Image.ANTIALIAS)
-                    buttonImage = ImageTk.PhotoImage(image)
-                    button = tk.Button(self.board,
+                buttonImage = ImageTk.PhotoImage(image)
+                button = tk.Button(self.board,
                                     command=lambda : self.buttonClicked(row, column), 
                                     #text = "b", 
                                     image = buttonImage)
-                    button.image = buttonImage
+                button.image = buttonImage
                 button.configure(height = 40, width = 40)
                 self.boardArray.append(button)
                 button.grid(row=row, column=column)
         
-
+    """
     def buttonClicked(self, thisButton, row, column):
         button.config(relief = solid)
         # if first_clicked == True, this means this button is the second clicked element
@@ -97,7 +97,7 @@ class HalmaGame:
         self.firstButton = None
         self.thisButton.config(relief = raised.)
         self.firstClicked = None
-
+    """
 
 
     # Display messages from program outlining what is going on

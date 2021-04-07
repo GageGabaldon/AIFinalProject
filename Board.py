@@ -3,10 +3,11 @@ class Board:
         self.gameWon = False
         self.timeLimit = timeLimit
         self.bSize = boardSize
-        self.boardArray = self.getGameArray()
-        self.whatSide = whatSide
         self.redGoal = []
         self.greenGoal = []
+        self.boardArray = self.getGameArray()
+        self.whatSide = whatSide
+
         if(whatSide == "green"):
             self.computerPieces = "red"
         else:
