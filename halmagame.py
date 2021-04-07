@@ -8,24 +8,26 @@ class HalmaGame:
     
     def __init__(self, board):
         # file names for button images
-        self.redp_whites = "redpiece_whitesquare.JPG"
-        self.redp_tans = "redpiece_tansquare.JPG"
-        self.redp_greys = "redpiece_greysquare.JPG"
+        self.redp_whites = "images/redpiece_whitesquare.JPG"
+        self.redp_tans = "images/redpiece_tansquare.JPG"
+        self.redp_greys = "images/redpiece_greysquare.JPG"
 
-        self.greenp_whites = "greenpiece_whitesquare.JPG"
-        self.greenp_tans = "greenpiece_tansquare.JPG"
-        self.greenp_greys = "greenpiece_greysquare.JPG"
+        self.greenp_whites = "images/greenpiece_whitesquare.JPG"
+        self.greenp_tans = "images/greenpiece_tansquare.JPG"
+        self.greenp_greys = "images/greenpiece_greysquare.JPG"
 
-        self.blank_whites = "blank_whitesquare.JPG"
-        self.blank_tans = "blank_tansquare.JPG"
-        self.blank_greys = "blank_greysquare.JPG"
+        self.blank_whites = "images/blank_whitesquare.JPG"
+        self.blank_tans = "images/blank_tansquare.JPG"
+        self.blank_greys = "images/blank_greysquare.JPG"
         self.board = board
+
 
         # command line arguments given by main
         self.bSize = board.bSize
         self.tLimit = board.timeLimit
         self.hPlayer = board.whatSide
         self.filename = None
+        self.boardArray = []
 
         # keep track of previously clicked buttons (since two spaces need to be clicked for move)
         self.firstClicked = False
@@ -101,19 +103,19 @@ class HalmaGame:
 
 
     # Display messages from program outlining what is going on
-    def statusString():
+    def statusString(self):
         pass
 
     # sets the status string to be displayed to the user
-    def setStatusString():
+    def setStatusString(self):
         pass
 
     # updates the board based on what pieces have been moved at what coordinate and to what coordinate
-    def update():
+    def update(self):
         pass
 
     # returns the pos of the click
-    def getClicked():
+    def getClicked(self):
         pass
 
 def main():
