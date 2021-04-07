@@ -4,7 +4,6 @@ from Player import Player
 from Computer import Computer
 
 class Main:
-
     # get the information from the user such as boardsisze, timelimit, which player moves first etc etc
     def __init__(self, size, timeLimit, whatSide):
         self.size = size
@@ -36,3 +35,37 @@ class Main:
                 else:
                     gui.printStatus("IM THINKING")
                     computer.move()
+
+
+
+
+    # Given a board and which player to move, it produces a correct
+    # and complete list of possible next moves, including jumps.
+    def moveGenerator(self, board, which_player):
+        #get the piece being moved
+
+        #get the position (posInfo possibly)
+
+        #use those coordinates of the piece to check
+           # the spaces around that piece and see if its valid
+
+        #eg if piece being moved is at (0,0) then it can move to
+           # (0,1), (1,0), (1, 1). (assuming space not occupied)
+
+           #if there is an enemy piece in adjacent space positionInfo
+           #it can jump the enemy piece if there is an open space after that
+
+           
+
+        pass #stub pass
+
+
+
+
+
+
+
+
+
+
+
