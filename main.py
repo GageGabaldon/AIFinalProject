@@ -11,12 +11,12 @@ class Main:
         self.whatSide = whatSide
 
     def main(self):
+
             # initialize the board, gui and player
             board = Board(self.size, self.timeLimit, self.whatSide)
             gui = GUI(board)
             player = Player(board, gui, self.whatSide)
             computer = Computer(board, gui, self.whatSide)
-
 
             # main run function
             while not board.gameWon:
