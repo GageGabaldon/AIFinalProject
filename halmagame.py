@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter as tk
 from Board import Board
+import sys
 from PIL import Image, ImageTk
 
 class HalmaGame:
@@ -67,12 +68,12 @@ class HalmaGame:
                         image = Image.open(self.redp_tans)
                     else:
                         image = Image.open(self.greenp_tans)
-
+        
                 # image now properly set, configure 
                 image.resize((10,10), Image.ANTIALIAS)
                 buttonImage = ImageTk.PhotoImage(image)
                 button = tk.Button(self.board,
-                                    command=lambda c = (row, column): self.buttonClicked(c[0], c[1]),
+                                    command=lambda : self.buttonClicked(row, column), 
                                     #text = "b", 
                                     image = buttonImage)
                 button.image = buttonImage
@@ -81,6 +82,7 @@ class HalmaGame:
                 button.grid(row=row, column=column)
         
     """
+    def buttonClicked(self, thisButton, row, column):
         button.config(relief = solid)
         # if first_clicked == True, this means this button is the second clicked element
         if self.first_clicked:
@@ -92,13 +94,6 @@ class HalmaGame:
         self.firstClicked = None
     """
 
-    def buttonClicked(self, row, column):
-        print(str(row), str(column))
-        self.firstClicked = (row, column)
-
-
-    def lastClicked(self):
-        return self.firstClicked
 
     # Display messages from program outlining what is going on
     def statusString(self):
@@ -121,9 +116,6 @@ def main():
     time = 1
     whatSide = "green"
     board = Board(size, time, whatSide)
-    board.updateBoard((4, 0), (0, 0))
-    board.getBoardInfo()
-
     game = HalmaGame(board)
     game.root.mainloop()
 
