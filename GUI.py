@@ -121,8 +121,43 @@ class GUI:
         self.timer.configure(text=now)
         self.timer.after(1000, self.update_clock)
 
-    def updateGUI():
-        pass
+    def updateGUI(self, board, piece, newPos):
+        pos1Info = gameArray[piece[0]][piece[1]]
+        pos2Info = gameArray[newPos[0]][newPos[1]]
+
+        pos1Button = self.boardArray[pos1[0], pos1[1]]
+        pos2Button = self.boardArray[pos2[0], pos2[1]]
+
+        for posInfo in [pos1Info, pos2Info]:
+            image = None
+            #blank squares
+            if pos1Info.goal == "grey" & pos1Info.piece = "none":
+                image = Image.open(self.blank_greys)
+            elif pos1Info.goal == "white" & pos1Info.piece = "none":
+                image = Image.open(self.blank_whites)
+            elif pos1Info.goal == "goal" & pos1Info.piece = "none":
+                image = Image.open(self.blank_tans)
+            # green piece squares
+            elif pos1Info.goal == "white" & pos1Info.piece = "green":
+                image = Image.open(self.greenp_whites)
+            elif pos1Info.goal == "grey" & pos1Info.piece = "green":
+                image = Image.open(self.greenp_greys)
+            elif pos1Info.goal == "goal" & pos1Info.piece = "green":
+                image = Image.open(self.greenp_goals)
+            # red squares
+            elif pos1Info.goal == "white" & pos1Info.piece = "red":
+                image = Image.open(self.redp_whites)
+            elif pos1Info.goal == "grey" & pos1Info.piece = "red":
+                image = Image.open(self.redp_greys)
+            else:
+                image = Image.open(self.redp_goals)
+
+            if posInfo == poso1Info:
+                pos1Button.image = buttonImage
+            else:
+                pos2Button.image = buttonImage
+
+        
 
     def setStatusString(self, string):
         print(string)

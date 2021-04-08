@@ -39,7 +39,7 @@ class HalmaGame:
             if self.player1.gotPiece:
                 if self.player1.isValid((row, column)):
                     self.board.updateBoard(self.player1.piece, (row, column))
-                    gui.updateUI()
+                    gui.updateUI(self.board, self.player1.piece, (row, column))
 
                     if not self.player1.turn:
                         self.player1.endTurn()
