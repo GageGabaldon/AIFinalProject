@@ -1,4 +1,5 @@
 class Board:
+
     def __init__(self, boardSize, timeLimit, whatSide):
         self.gameWon = False
         self.timeLimit = timeLimit
@@ -72,6 +73,22 @@ class Board:
         else:
             return redWin
 
+    def getBoardInfo(self):
+        for col in range(0, self.bSize):
+            for row in range(0, self.bSize):
+                self.boardArray[col][row].displayInfo()
+
+    # assume input is valid
+    def updateBoard(self, piece, newPos):
+        pos1 = self.boardArray[piece[0]][piece[1]]
+        pos2 = self.boardArray[newPos[0]][newPos[1]]
+        color = pos1.color
+
+        pos1.updatePos("none")
+        pos2.updatePos(color)
+
+
+
 class PosInfo:
     def __init__(self, boardPos, piece, color, goal, colorGoal):
         self.boardPos = boardPos
@@ -79,6 +96,13 @@ class PosInfo:
         self.color = color
         self.goal = goal
         self.colorGoal = colorGoal
+
+    def updatePos(self, piece):
+        self.color = piece
+        if piece == "none":
+            self.piece = False
+        else:
+            self.piece = True
 
     def getPos(self):
         return self.boardPos
@@ -94,3 +118,6 @@ class PosInfo:
             return True
         else:
             return False
+
+    def displayInfo(self):
+        print(str(self.boardPos) + " " + str(self.color) + " " + str(self.goal))
