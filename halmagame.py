@@ -87,15 +87,35 @@ class HalmaGame:
     def buttonClicked(self, row, column):
         self.firstClicked = True
         self.firstButton = (row, column)
+
+
         if(self.player1.turn):
-            if(self.player1.hasPeice):
-                self.player1.piece = (row, column)
-            else:
+
+            if(self.player1.hasPiece):
+
                 if(self.player1.isValid((row, column))):
                     self.board.updateBoard(self.player1.piece, (row, column))
+                    self.updateUI()
+
+                    if(self.player1.endTurn):
+                        self.updatePlayerInfo()
+
+                    # call the computer
+                else:
+                    self.statusString("Invalid move")
+            else:
+                if(self.player1.isValidPiece((row, column))):
+                    self.player1.moveGenerator((row, column))
+                    self.player1.piece = (row, column)
+                else:
+                    self.statusString("Invalid move please select a valid piece")
+
         # player two logic
         else:
             pass
+
+        if(self.board.gameWon):
+            self.statusString("you won")
 
         print(row + ", " + column)
 
