@@ -20,6 +20,11 @@ class Board:
         if(self.bSize == 8):
             redgoal = [(0, 7), (0, 6), (0, 5), (0, 4), (1, 5), (1, 6), (1, 7), (2, 6), (2, 7), (3, 7)]
             greenGoal = [(4, 0), (5, 0), (6, 0), (7, 0), (5, 1), (6, 1), (7, 1), (6, 2), (7, 2), (7, 3)]
+            whiteSquare = [(0, 0), (0, 2), (1, 1), (1, 3), (2, 0), (2, 2), (2, 4), (3, 1), (3, 3), (3, 5),
+                            (4, 2), (4, 4), (4, 6), (5, 3), (5, 5), (5, 7), (6, 4), (6, 6), (7, 5), (7, 7)]
+            greySquare = [(0, 1), (0, 3), (1, 0), (1, 2), (1, 4), (2, 1), (2, 3), (2, 5), (3, 0), (3, 2),
+                            (3, 4), (3, 6), (4, 1), (4, 3), (4, 5), (4, 7), (5, 2), (5, 4), (5, 6), (6, 3)
+                            (6, 3), (6, 5), (6, 7), (7, 4), (7, 6)]
         elif(self.bSize == 10):
             return 1
         else:
@@ -29,17 +34,20 @@ class Board:
             rowArray = []
             for row in range(0, self.bSize):
                 if (row, col) in redgoal:
-                    boardInfo = PosInfo((row, col), True, "red", True, "green")
+                    boardInfo = PosInfo((row, col), True, "red", "goal", "green")
                     rowArray.append(boardInfo)
                     self.greenGoal.append(boardInfo)
-
                 elif (row, col) in greenGoal:
-                    boardInfo = PosInfo((row, col), True, "green", True, "red")
+                    boardInfo = PosInfo((row, col), True, "green", "goal", "red")
                     rowArray.append(boardInfo)
                     self.redGoal.append(boardInfo)
                 else:
-                    boardInfo = PosInfo((row, col), False, "none", False, "none")
-                    rowArray.append(boardInfo)
+                    if (row, col) in whiteSquare:
+                        boardInfo = PosInfo((row, col), False, "white", , "none")
+                        rowArray.append(boardInfo)
+                    else:
+                        boardInfo = PosInfo((row, col), False, "grey", , "none")
+                        rowArray.append(boardInfo)
 
             columnArray.append(rowArray)
 
