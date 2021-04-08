@@ -19,42 +19,67 @@ class Board:
         for row in range(0, self.bSize):
             for col in range(0, self.bSize):
                 if (row % 2 == 0 and col % 2 != 0) or (row % 2 != 0 and col % 2 == 0):
-                    whiteSquares.append((row, column))
+                    whiteSquares.append((row, col))
                 else: 
-                    greySquares.append((row, column))
+                    greySquares.append((row, col))
         return (whiteSquares, greySquares)
 
+    def getGoal(self):
+        redgoal = [[0, self.bSize - 1], [0, self.bSize - 2], [0, self.bSize -3], [0, self.bSize - 4],
+                   [1, self.bSize - 1], [1, self.bSize - 2], [1, self.bSize - 3], [2, self.bSize -1], [2, self.bSize - 2],
+                   [3, self.bSize - 1]]
+        greengoal = [[self.bSize -1, 0], [self.bSize - 2, 0], [self.bSize - 3, 0], [self.bSize - 4, 0], [self.bSize - 1, 1 ],
+                     [self.bSize - 2, 1], [self.bSize - 3, 1], [self.bSize - 1, 2], [self.bSize - 2, 2],
+                     [self.bSize - 1, 3]]
+
+        if self.bSize == 10 or self.bSize == 16:
+            redgoal.append([0, self.bSize - 5])
+            redgoal.append([1, self.bSize - 4])
+            redgoal.append([2, self.bSize - 3])
+            redgoal.append([3, self.bSize - 2])
+            redgoal.append([4, self.bSize - 1])
+
+            greengoal.append([self.bSize - 5, 0])
+            greengoal.append([self.bSize - 4, 1])
+            greengoal.append([self.bSize - 3, 2])
+            greengoal.append([self.bSize - 2, 3])
+            greengoal.append([self.bSize - 1, 4])
+
+            if self.bSize == 16:
+                redgoal.append([1, self.bSize - 5])
+                redgoal.append([2, self.bSize - 4])
+                redgoal.append([3, self.bSize - 3])
+                redgoal.append([4, self.bSize - 2])
+
+                greengoal.append([self.bSize - 5, 1])
+                greengoal.append([self.bSize - 4, 2])
+                greengoal.append([self.bSize - 3, 3])
+                greengoal.append([self.bSize - 2, 4])
+
+        return (redgoal, greengoal)
 
     def getGameArray(self):
-        columnArray = []]
+        columnArray = []
         rowArray = []
         goalStates = []
-        if(self.bSize == 8):
-            redgoal = [(0, 7), (0, 6), (0, 5), (0, 4), (1, 5), (1, 6), (1, 7), (2, 6), (2, 7), (3, 7)]
-            greenGoal = [(4, 0), (5, 0), (6, 0), (7, 0), (5, 1), (6, 1), (7, 1), (6, 2), (7, 2), (7, 3)]
-        elif(self.bSize == 10):
-            redgoal = [(0, 7), (0, 6), (0, 5), (0, 4), (1, 5), (1, 6), (1, 7), (2, 6), (2, 7), (3, 7)]
-            greenGoal = [(4, 0), (5, 0), (6, 0), (7, 0), (5, 1), (6, 1), (7, 1), (6, 2), (7, 2), (7, 3)]
-        else:
-            redgoal = [(0, 7), (0, 6), (0, 5), (0, 4), (1, 5), (1, 6), (1, 7), (2, 6), (2, 7), (3, 7)]
-            greenGoal = [(4, 0), (5, 0), (6, 0), (7, 0), (5, 1), (6, 1), (7, 1), (6, 2), (7, 2), (7, 3)]
+        goals = self.getGoal()
+        redGoal = goals[0]
+        greenGoal = goals[1]
+        print(redGoal)
+        print(greenGoal)
 
-        whiteGrey = findwhiteGrey()
-        whiteSquares = whiteGrey[0]
-        greySquares = whiteGrey[1]
+        whiteGrey = self.findWhiteGrey()
+        whiteSquare = whiteGrey[0]
+        greySquare = whiteGrey[1]
 
-        elif(self.bSize == 10):
-            return 1
-        else:
-            return 2
         for col in range(0, self.bSize):
             rowArray = []
             for row in range(0, self.bSize):
-                if (row, col) in redgoal:
+                if [row, col] in redGoal:
                     boardInfo = PosInfo((row, col), True, "red", "goal", "green")
                     rowArray.append(boardInfo)
                     self.greenGoal.append(boardInfo)
-                elif (row, col) in greenGoal:
+                elif [row, col] in greenGoal:
                     boardInfo = PosInfo((row, col), True, "green", "goal", "red")
                     rowArray.append(boardInfo)
                     self.redGoal.append(boardInfo)

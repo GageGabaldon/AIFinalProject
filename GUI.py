@@ -5,7 +5,7 @@ import time
 
 class GUI:
 
-    def __init__(self):
+    def __init__(self, time):
         # find square images
         self.redp_whites = "images/redpiece_whitesquare.JPG"
         self.redp_tans = "images/redpiece_tansquare.JPG"
@@ -23,12 +23,14 @@ class GUI:
         self.root = tk.Tk() # main window
         self.root.geometry("1000x1000")
         self.root.title("Halma Game") # window name
+        self.root.after(1000, self.update_clock)
+
         self.mainWindow = tk.Frame(self.root, width = 800, height = 800) # frame holding nxn board
         self.mainWindow.pack()
 
         # create timer above board
         self.clock = StringVar()
-        self.timer = tk.Label(self.mainWindow, textvariable = self.clock, justify = "center")
+        self.timer = tk.Label(self.mainWindow, text = self.clock, justify = "center")
         self.clock.set("0:00:00")
         self.timer.columnconfigure(0)
         self.timer.pack()
@@ -50,6 +52,7 @@ class GUI:
 
         # start the timer
         self.timer.after(1000, self.update_clock)
+        self.timeLimit = time
         self.update_clock()
 
     def createBoardLabels(self, bSize):
@@ -116,8 +119,7 @@ class GUI:
 
     def update_clock(self):
         now = time.strftime("%H:%M:%S")
-        text = "5:00"
-        self.timer.configure(text=text)
+        self.timer.configure(text=now)
         self.timer.after(1000, self.update_clock)
 
     def updateGUI():

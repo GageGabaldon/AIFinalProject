@@ -24,13 +24,12 @@ class HalmaGame:
 
         # call a window creator class
         # create GUI (main window, configured columns/ frames, etc..)
-        self.gui = GUI()
+        self.gui = GUI(self.tLimit)
         self.root = self.gui.root
 
         # create blank board using getGameArray return
         gameArray = board.boardArray
         self.gui.createBoard(self, gameArray)
-        self.gui.update_clock()
 
     def buttonClicked(self, row, column):
         print(str(row) + ", " + str(column))
@@ -69,7 +68,7 @@ class HalmaGame:
 
 
 def main():
-    size = 8
+    size = 16
     time = 1
     whatSide = "green"
     board = Board(size, time, whatSide)
