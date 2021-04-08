@@ -1,6 +1,6 @@
 class Player:
 
-    def __init__(self, board,  whatSide, myTurn):
+    def __init__(self, board, whatSide, myTurn):
         self.board = board
         self.whatSide = whatSide
         self.turn = myTurn
