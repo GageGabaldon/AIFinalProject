@@ -3,7 +3,6 @@ import tkinter as tk
 from Board import Board
 from PIL import Image, ImageTk
 
-# hi guys
 class HalmaGame:
     
     def __init__(self, board):
@@ -57,24 +56,17 @@ class HalmaGame:
                 
                 image = None
                 # grey squares
-                if ((row % 2 == 0) and (column % 2 != 0)) or ((row % 2 != 0 and column % 2 == 0)):
-                    if posInfo.piece == True and posInfo.color == "red":
-                        image = Image.open(self.redp_greys)
-                    elif posInfo.piece == True and posInfo.color == "green":
-                        image = Image.open(self.greenp_greys)
-                    else:
+                if posInfo.goal == "grey":
                         image = Image.open(self.blank_greys)
-                # tan squares
                 # white squares
-                else: 
-                    image = None
-                    # find color of piece or if blank square
-                    if posInfo.piece == True and posInfo.color == "red":
-                        image = Image.open(self.redp_whites)
-                    elif posInfo.piece == True and posInfo.color == "green":
-                        image = Image.open(self.greenp_whites)
-                    else:
+                if posInfo.goal = "white":
                         image = Image.open(self.blank_whites)
+                # goal squares
+                else: 
+                    if posInfo.piece == "red":
+                        image = Image.open(self.redp_tans)
+                    else:
+                        image = Image.open(self.greenp_tans)
 
                 # image now properly set, configure 
                 image.resize((10,10), Image.ANTIALIAS)
