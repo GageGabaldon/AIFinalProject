@@ -14,20 +14,34 @@ class Board:
             self.computerPieces = "green"
 
     def findWhiteGrey(self):
-        pass
+        whiteSquares = []
+        greySquares = []
+        for row in range(0, self.bSize):
+            for col in range(0, self.bSize):
+                if (row % 2 == 0 and col % 2 != 0) or (row % 2 != 0 and col % 2 == 0):
+                    whiteSquares.append((row, column))
+                else: 
+                    greySquares.append((row, column))
+        return (whiteSquares, greySquares)
+
 
     def getGameArray(self):
-        columnArray = []
+        columnArray = []]
         rowArray = []
         goalStates = []
         if(self.bSize == 8):
             redgoal = [(0, 7), (0, 6), (0, 5), (0, 4), (1, 5), (1, 6), (1, 7), (2, 6), (2, 7), (3, 7)]
             greenGoal = [(4, 0), (5, 0), (6, 0), (7, 0), (5, 1), (6, 1), (7, 1), (6, 2), (7, 2), (7, 3)]
-            whiteSquare = [(0, 0), (0, 2), (1, 1), (1, 3), (2, 0), (2, 2), (2, 4), (3, 1), (3, 3), (3, 5),
-                            (4, 2), (4, 4), (4, 6), (5, 3), (5, 5), (5, 7), (6, 4), (6, 6), (7, 5), (7, 7)]
-            greySquare = [(0, 1), (0, 3), (1, 0), (1, 2), (1, 4), (2, 1), (2, 3), (2, 5), (3, 0), (3, 2),
-                            (3, 4), (3, 6), (4, 1), (4, 3), (4, 5), (4, 7), (5, 2), (5, 4), (5, 6), (6, 3),
-                            (6, 3), (6, 5), (6, 7), (7, 4), (7, 6)]
+        elif(self.bSize == 10):
+            redgoal = [(0, 7), (0, 6), (0, 5), (0, 4), (1, 5), (1, 6), (1, 7), (2, 6), (2, 7), (3, 7)]
+            greenGoal = [(4, 0), (5, 0), (6, 0), (7, 0), (5, 1), (6, 1), (7, 1), (6, 2), (7, 2), (7, 3)]
+        else:
+            redgoal = [(0, 7), (0, 6), (0, 5), (0, 4), (1, 5), (1, 6), (1, 7), (2, 6), (2, 7), (3, 7)]
+            greenGoal = [(4, 0), (5, 0), (6, 0), (7, 0), (5, 1), (6, 1), (7, 1), (6, 2), (7, 2), (7, 3)]
+
+        whiteGrey = findwhiteGrey()
+        whiteSquares = whiteGrey[0]
+        greySquares = whiteGrey[1]
 
         elif(self.bSize == 10):
             return 1

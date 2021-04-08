@@ -119,6 +119,8 @@ class GUI:
         self.after(1000, self.update_clock)
         """
 
+    def updateGUI():
+        pass
 
     def setStatusString(self, string):
         self.statusString.set(string)
