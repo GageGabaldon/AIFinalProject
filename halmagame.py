@@ -39,7 +39,7 @@ class HalmaGame:
             if self.player1.gotPiece:
                 if self.player1.isValid((row, column)):
                     self.board.updateBoard(self.player1.piece, (row, column))
-                    self.updateUI()
+                    gui.updateUI()
 
                     if not self.player1.turn:
                         self.player1.endTurn()
@@ -68,7 +68,7 @@ class HalmaGame:
 
 
 def main():
-    size = 8
+    size = 10
     time = 1
     whatSide = "green"
     board = Board(size, time, whatSide)
