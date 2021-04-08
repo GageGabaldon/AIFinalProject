@@ -12,11 +12,8 @@ class Player:
         nextMove = self.gui.nextMove()
         return nextMove
 
-    def validMoves(self, coord):
-        if coord in self.validMoves:
-            return True
-        else:
-            return False
+    def isValidMoves(self, coord):
+        return True
 
     def isValidPiece(self, cord):
         pos = self.board.boardArray[cord[0]][cord[1]]

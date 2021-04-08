@@ -33,24 +33,26 @@ class HalmaGame:
 
     def buttonClicked(self, row, column):
         print(str(row) + ", " + str(column))
+        if self.board.endTurnHappened:
+            if self.player1.turn:
+                self.player1.endTurn()
+                self.player2.turn = True
+            else:
+                self.player2.endTurn()
+                self.player1.turn = True
 
         if self.player1.turn:
-
             if self.player1.gotPiece:
-                if self.player1.isValid((row, column)):
+                if self.player1.isValidMoves((row, column)):
                     self.board.updateBoard(self.player1.piece, (row, column))
-                    gui.updateUI(self.board, self.player1.piece, (row, column))
-
-                    if not self.player1.turn:
-                        self.player1.endTurn()
-
-                    # call the computer
+                    self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
                 else:
                     self.setStatusString("Invalid move")
             else:
                 if self.player1.isValidPiece((row, column)):
                     self.player1.moveGenerator((row, column))
                     self.player1.piece = (row, column)
+                    self.player1.gotPiece = True
                 else:
                     self.gui.setStatusString("Invalid move please select a valid piece")
 

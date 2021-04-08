@@ -85,8 +85,11 @@ class GUI:
     def createBoard(self, halmaGame, gameArray):
         self.board.width = halmaGame.bSize * 40
         self.board.height = halmaGame.bSize * 40
+        tempArray = []
+
         # loop through game array for posInfo
         for row in range(0, halmaGame.bSize):
+            tempArray = []
             for column in range(0, halmaGame.bSize):
                 # calls button clicked and passes in the button object
                 button = None
@@ -116,8 +119,10 @@ class GUI:
                                     image = buttonImage)
                 button.image = buttonImage
                 button.configure(height = 40, width = 40)
-                halmaGame.boardArray.append(button)
-                button.grid(row=row, column=column)    
+                tempArray.append(button)
+                button.grid(row=row, column=column)
+
+            halmaGame.boardArray.append(tempArray)
         self.createBoardLabels(halmaGame.bSize)
 
     def resetTimer(self, halmaGame):
@@ -128,38 +133,38 @@ class GUI:
         self.timer.configure(text=now)
         self.timer.after(1000, self.update_clock)
 
-    def updateGUI(self, board, piece, newPos):
-        pos1Info = gameArray[piece[0]][piece[1]]
-        pos2Info = gameArray[newPos[0]][newPos[1]]
+    def updateGUI(self, board, piece, newPos, buttonArray):
+        pos1Info = board.boardArray[piece[0]][piece[1]]
+        pos2Info = board.boardArray[newPos[0]][newPos[1]]
 
-        pos1Button = board.boardArray[pos1Info[0], pos1Info[1]]
-        pos2Button = board.boardArray[pos2Info[0], pos2Info[1]]
+        pos1Button = buttonArray[pos1Info.boardPos[0]][pos1Info.boardPos[1]]
+        pos2Button = buttonArray[pos2Info.boardPos[0]][ pos2Info.boardPos[1]]
 
         for posInfo in [pos1Info, pos2Info]:
             image = None
             #blank squares
-            if posInfo.goal == "grey" & pos1Info.piece == "none":
+            if posInfo.goal == "grey" and pos1Info.color == "none":
                 image = Image.open(self.blank_greys)
-            elif posInfo.goal == "white" & pos1Info.piece == "none":
+            elif posInfo.goal == "white" and pos1Info.color == "none":
                 image = Image.open(self.blank_whites)
-            elif posInfo.goal == "goal" & pos1Info.piece == "none":
+            elif posInfo.goal == "goal" and pos1Info.color == "none":
                 image = Image.open(self.blank_tans)
             # green piece squares
-            elif posInfo.goal == "white" & pos1Info.piece == "green":
+            elif posInfo.goal == "white" and pos1Info.color == "green":
                 image = Image.open(self.greenp_whites)
-            elif posInfo.goal == "grey" & pos1Info.piece == "green":
+            elif posInfo.goal == "grey" and pos1Info.color == "green":
                 image = Image.open(self.greenp_greys)
-            elif posInfo.goal == "goal" & pos1Info.piece == "green":
+            elif posInfo.goal == "goal" and pos1Info.color == "green":
                 image = Image.open(self.greenp_goals)
             # red squares
-            elif posInfo.goal == "white" & pos1Info.piece == "red":
+            elif posInfo.goal == "white" and pos1Info.color == "red":
                 image = Image.open(self.redp_whites)
-            elif posInfo.goal == "grey" & pos1Info.piece == "red":
+            elif posInfo.goal == "grey" and pos1Info.color == "red":
                 image = Image.open(self.redp_greys)
             else:
                 image = Image.open(self.redp_goals)
 
-            if posInfo == poso1Info:
+            if posInfo == pos1Info:
                 pos1Button.image = image
             else:
                 pos2Button.image = image
