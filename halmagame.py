@@ -21,9 +21,6 @@ class HalmaGame:
         self.filename = None
         self.boardArray = []
 
-        # keep track of previously clicked buttons (since two spaces need to be clicked for move)
-        self.firstClicked = False
-        self.firstButton = None
 
         # call a window creator class
         # create GUI (main window, configured columns/ frames, etc..)
@@ -33,41 +30,39 @@ class HalmaGame:
         # create blank board using getGameArray return
         gameArray = board.boardArray
         self.gui.createBoard(self, gameArray)
-    
+        self.gui.update_clock()
 
     def buttonClicked(self, row, column):
-        self.firstClicked = True
-        self.firstButton = (row, column)
+        print(str(row) + ", " + str(column))
 
-        if(self.player1.turn):
+        if self.player1.turn:
 
-            if(self.player1.hasPiece):
+            if self.player1.gotPiece:
 
-                if(self.player1.isValid((row, column))):
+                if self.player1.isValid((row, column)):
                     self.board.updateBoard(self.player1.piece, (row, column))
                     self.updateUI()
 
-                    if(self.player1.endTurn):
-                        self.updatePlayerInfo()
+                    if not self.player1.turn:
+                        self.player1.endTurn()
 
                     # call the computer
                 else:
                     self.statusString("Invalid move")
             else:
-                if(self.player1.isValidPiece((row, column))):
+                if self.player1.isValidPiece((row, column)):
                     self.player1.moveGenerator((row, column))
                     self.player1.piece = (row, column)
                 else:
-                    self.statusString("Invalid move please select a valid piece")
+                    self.gui.statusString("Invalid move please select a valid piece")
 
         # player two logic
         else:
             pass
 
         if(self.board.gameWon):
-            self.statusString("you won")
+            self.setStatusString("you won")
 
-        print(row + ", " + column)
 
     # updates the board based on what pieces have been moved at what coordinate and to what coordinate
     def update(self):
@@ -86,6 +81,7 @@ def main():
     player1 = Player(board, whatSide, myTurn = True)
     player2 = Player(board, whatSide = "green", myTurn = False)
     game = HalmaGame(board, player1, player2)
+    game.root.after(1000, game.gui.update_clock)
     game.root.mainloop()
 
 if __name__ == "__main__":

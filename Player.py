@@ -5,6 +5,7 @@ class Player:
         self.whatSide = whatSide
         self.turn = myTurn
         self.gotPiece = False
+        self.piece = (-1, -1)
         self.validMoves = []
 
     def nextMove(self):
@@ -16,6 +17,26 @@ class Player:
             return True
         else:
             return False
+
+    def isValidPiece(self, cord):
+        pos = self.board.boardArray[cord[0]][cord[1]]
+        if(pos.piece):
+            return True
+
+        return False
+
+    def endTurn(self):
+        self.turn = False
+        self.piece = (-1, -1)
+        self.gotPiece = False
+        self.validMoves = []
+
+
+    # do move generator logic and save into valid moves for later
+    def moveGenerator(self, cord):
+        pass
+
+
 
 
 
