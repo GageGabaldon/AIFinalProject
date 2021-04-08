@@ -78,7 +78,6 @@ def main():
     player1 = Player(board, whatSide, myTurn = True)
     player2 = Player(board, whatSide = "green", myTurn = False)
     game = HalmaGame(board, player1, player2)
-    game.root.after(1000, game.gui.update_clock)
     game.root.mainloop()
 
 if __name__ == "__main__":
