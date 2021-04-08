@@ -84,7 +84,7 @@ class HalmaGame:
     def buttonClicked(self, row, column):
         self.firstClicked = True
         self.firstButton = (row, column)
-        print(row + ", " + column)
+        print(str(row) + ", " + str(column))
 
     # Display messages from program outlining what is going on
     def statusString(self):
