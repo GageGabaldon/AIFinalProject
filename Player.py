@@ -52,7 +52,7 @@ class Player:
             for(j in range(col-1,col+1)):
                 sur_piece = board_arr[i][j] #surrounding piece
                 if sur_piece.piece:#if sur_piece is a piece
-                    if sur_piece.color != self.whatSide:#if is not enemy piece
+                    if sur_piece.color != self.whatSide:#if is enemy piece
                         #if theres a piece after the enemy piece to hop to(loop?)
                         if(sur_piece[i-1][j-1].piece != True): #if theres not a piece top left
                             poss_moves.append(sur_piece[i-1][j-1])                           
@@ -73,7 +73,7 @@ class Player:
              
                 else:
                     poss_moves.append(sur_piece.boardPos)
-                
+        
         
         #eg if piece being moved is at (0,0) then it can move to
            # (0,1), (1,0), (1, 1). (assuming space not occupied)
