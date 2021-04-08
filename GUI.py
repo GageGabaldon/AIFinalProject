@@ -121,6 +121,6 @@ class GUI:
         self.timer.after(1000, self.update_clock)
 
 
-
     def setStatusString(self, string):
+        print(string)
         self.statusString.set(string)
