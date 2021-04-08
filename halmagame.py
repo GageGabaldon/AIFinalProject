@@ -3,6 +3,7 @@ import tkinter as tk
 from Board import Board
 from PIL import Image, ImageTk
 
+# hi guys
 class HalmaGame:
     
     def __init__(self, board):
