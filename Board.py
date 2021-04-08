@@ -13,6 +13,10 @@ class Board:
         else:
             self.computerPieces = "green"
 
+    def findWhiteGrey():
+        
+
+
     def getGameArray(self):
         columnArray = []
         rowArray = []

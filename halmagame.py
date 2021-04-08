@@ -74,7 +74,7 @@ class HalmaGame:
 
 
 def main():
-    size = 8
+    size = 10
     time = 1
     whatSide = "green"
     board = Board(size, time, whatSide)

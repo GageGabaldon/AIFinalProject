@@ -21,7 +21,7 @@ class GUI:
         self.root = tk.Tk() # main window
         self.root.geometry("1000x1000")
         self.root.title("Halma Game") # window name
-        self.mainWindow = tk.Frame(self.root, bg = "black", width = 800, height = 800) # frame holding nxn board
+        self.mainWindow = tk.Frame(self.root, width = 800, height = 800) # frame holding nxn board
         self.mainWindow.pack()
 
         # create timer above board
@@ -32,9 +32,12 @@ class GUI:
         self.timer.pack()
 
         # create board frame
-        self.board = tk.Frame(self.mainWindow, bg = "black", width = 600, height = 600) # frame holding nxn board
-        self.board.columnconfigure(1)
-        self.board.pack()
+        self.boardOuter = tk.Frame(self.mainWindow, width = 1000, height = 1000) # frame holding nxn board
+        self.boardOuter.columnconfigure(1)
+        self.boardOuter.pack()
+
+        self.board = tk.Frame(self.boardOuter)
+        self.board.grid(row = 1, column = 1)
 
         # create status label below board
         self.statusString = StringVar()
@@ -43,11 +46,31 @@ class GUI:
         self.statusLabel.columnconfigure(2)
         self.statusLabel.pack()
 
-    def createBoard(self, halmaGame, gameArray):
-        # CREATE EMPTY BOARD
-        self.board = self.board
-        self.board.pack()
+    def createBoardLabels(self, bSize):
+        # create label frames
+        self.leftLabels = tk.Frame(self.boardOuter, width = 20, height = 20)
+        self.leftLabels.grid(row = 1, column = 0)
+        self.topLabels = tk.Frame(self.boardOuter, width = 20, height = 20)
+        self.topLabels.grid(row = 0, column = 1)
 
+        # loop create left 1-bSize labels in column
+        for x in range(1, bSize + 1):
+            label = Label(self.leftLabels, text = str(x), width = 8)
+            label.columnconfigure(x)
+            label.pack()
+
+        # loop create top a-bSize letter labels in row
+        alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"]
+        boardAlphabet = alphabet[0 : bSize]
+        for letter in boardAlphabet:
+            label = Label(self.topLabels, text = letter, justify = "left")
+            label.grid(row = 0, column = alphabet.index(letter))
+        
+
+    def createBoard(self, halmaGame, gameArray):
+        self.board.width = halmaGame.bSize * 40
+        self.board.height = halmaGame.bSize * 40
+        # loop through game array for posInfo
         for row in range(0, halmaGame.bSize):
             for column in range(0, halmaGame.bSize):
                 # calls button clicked and passes in the button object
@@ -80,6 +103,7 @@ class GUI:
                 button.configure(height = 40, width = 40)
                 halmaGame.boardArray.append(button)
                 button.grid(row=row, column=column)    
+        self.createBoardLabels(halmaGame.bSize)
 
     def resetTimer(self, halmaGame):
         pass
