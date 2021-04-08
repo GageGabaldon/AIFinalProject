@@ -1,6 +1,8 @@
 from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
+import time
+
 class GUI:
 
     def __init__(self):
@@ -27,6 +29,7 @@ class GUI:
         # create timer above board
         self.clock = StringVar()
         self.timer = tk.Label(self.mainWindow, textvariable = self.clock, justify = "center")
+        self.timer.after(1000, self.update_clock)
         self.clock.set("0:00:00")
         self.timer.columnconfigure(0)
         self.timer.pack()
@@ -107,6 +110,15 @@ class GUI:
 
     def resetTimer(self, halmaGame):
         pass
+
+    def update_clock(self):
+        pass
+        """
+        now = time.strftime("%H:%M:%S")
+        self.timer.configure(text=now)
+        self.after(1000, self.update_clock)
+        """
+
 
     def setStatusString(self, string):
         self.statusString.set(string)

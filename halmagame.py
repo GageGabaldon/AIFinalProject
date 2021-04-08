@@ -68,16 +68,13 @@ class HalmaGame:
     def update(self):
         pass
 
-    # returns the pos of the click
-    def getClicked(self):
-        return self.firstButton
-
 
 def main():
-    size = 10
+    size = 8
     time = 1
     whatSide = "green"
     board = Board(size, time, whatSide)
+    board.getBoardInfo()
     player1 = Player(board, whatSide, myTurn = True)
     player2 = Player(board, whatSide = "green", myTurn = False)
     game = HalmaGame(board, player1, player2)
