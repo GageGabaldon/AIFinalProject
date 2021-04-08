@@ -1,12 +1,18 @@
 from tkinter import *
 import tkinter as tk
 from Board import Board
+from GUI import GUI
 import sys
 from PIL import Image, ImageTk
 
 class HalmaGame:
-    
     def __init__(self, board):
+        pass
+
+    def __init__(self, board, player1, player2):
+        self.player1 = player1
+        self.player2 = player2
+
         # file names for button images
         self.redp_whites = "images/redpiece_whitesquare.JPG"
         self.redp_tans = "images/redpiece_tansquare.JPG"
@@ -34,14 +40,17 @@ class HalmaGame:
         self.firstButton = None
 
         # call a window creator class
-        self.root = tk.Tk() # main window
-        self.root.geometry("1000x1000")
-        self.root.title("Halma Game") # window name
+        # create GUI (main window, configured columns/ frames, etc..)
+        self.gui = self.GUI()
+        self.root = self.gui.root
 
         # create blank board using getGameArray return
+        self.createStatusLabel()
         gameArray = board.boardArray
         self.createBoard(gameArray)
 
+
+    def createStatusLabel
     
     def createBoard(self, gameArray):
         # CREATE EMPTY BOARD
@@ -80,11 +89,41 @@ class HalmaGame:
                 button.configure(height = 40, width = 40)
                 self.boardArray.append(button)
                 button.grid(row=row, column=column)
-        
+    
+
     def buttonClicked(self, row, column):
         self.firstClicked = True
         self.firstButton = (row, column)
-        print(str(row) + ", " + str(column))
+
+        if(self.player1.turn):
+
+            if(self.player1.hasPiece):
+
+                if(self.player1.isValid((row, column))):
+                    self.board.updateBoard(self.player1.piece, (row, column))
+                    self.updateUI()
+
+                    if(self.player1.endTurn):
+                        self.updatePlayerInfo()
+
+                    # call the computer
+                else:
+                    self.statusString("Invalid move")
+            else:
+                if(self.player1.isValidPiece((row, column))):
+                    self.player1.moveGenerator((row, column))
+                    self.player1.piece = (row, column)
+                else:
+                    self.statusString("Invalid move please select a valid piece")
+
+        # player two logic
+        else:
+            pass
+
+        if(self.board.gameWon):
+            self.statusString("you won")
+
+        print(row + ", " + column)
 
     # Display messages from program outlining what is going on
     def statusString(self):
@@ -102,6 +141,7 @@ class HalmaGame:
     def getClicked(self):
         return self.firstButton
 
+
 def main():
     size = 8
     time = 1
@@ -112,7 +152,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 # make buttons stay highlighted when clicked 
 # unhighlight when clicked again
