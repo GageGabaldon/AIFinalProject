@@ -54,22 +54,21 @@ class GUI:
 
     def createBoardLabels(self, bSize):
         # create label frames
-        self.leftLabels = tk.Frame(self.boardOuter, width = 20, height = 20)
-        self.leftLabels.grid(row = 1, column = 0)
-        self.topLabels = tk.Frame(self.boardOuter, width = 20, height = 20)
-        self.topLabels.grid(row = 0, column = 1)
+        leftLabels = tk.Frame(self.boardOuter)
+        leftLabels.grid(row = 1, column = 0)
+        topLabels = tk.Frame(self.boardOuter)
+        topLabels.grid(row = 0, column = 1)
 
         # loop create left 1-bSize labels in column
         for x in range(1, bSize + 1):
-            label = Label(self.leftLabels, text = str(x), width = 8)
-            label.columnconfigure(x)
-            label.pack()
+            label = tk.Label(leftLabels, text = str(x), width = 1, height = 3)
+            label.grid(row = x, column = 0)
 
         # loop create top a-bSize letter labels in row
         alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"]
         boardAlphabet = alphabet[0 : bSize]
         for letter in boardAlphabet:
-            label = Label(self.topLabels, text = letter, justify = "left")
+            label = tk.Label(topLabels, text = letter, width = 6, height = 1)
             label.grid(row = 0, column = alphabet.index(letter))
         
 
