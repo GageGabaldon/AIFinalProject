@@ -102,17 +102,6 @@ class HalmaGame:
     def getClicked(self):
         return self.firstButton
 
-def main():
-    size = 8
-    time = 1
-    whatSide = "green"
-    board = Board(size, time, whatSide)
-    game = HalmaGame(board)
-    game.root.mainloop()
-
-if __name__ == "__main__":
-    main()
-
 
 # make buttons stay highlighted when clicked 
 # unhighlight when clicked again

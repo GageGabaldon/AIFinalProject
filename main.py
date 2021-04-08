@@ -1,6 +1,7 @@
 from Board import Board
 from GUI import GUI
 from Player import Player
+from halmagame import HalmaGame
 from Computer import Computer
 
 class Main:
@@ -21,7 +22,6 @@ class Main:
             else:
                 player2 = Player(board, gui, "green")
 
-
             # for later
             #computer = Computer(board, gui, self.whatSide)
 
@@ -38,10 +38,6 @@ class Main:
                         else:
                             gui.printStatus("Invalid move")
                     gui.printStatus("IM THINKING")
-                    computer.move()
-                else:
-                    gui.printStatus("IM THINKING")
-                    computer.move()
 
 
 
@@ -69,8 +65,15 @@ class Main:
 
         pass #stub pass
 
+def main():
+    size = 8
+    time = 1
+    whatSide = "green"
+    board = Board(size, time, whatSide)
+    game = HalmaGame(board)
+    game.root.mainloop()
 
-
+main()
 
 
 
