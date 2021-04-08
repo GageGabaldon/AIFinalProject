@@ -58,16 +58,16 @@ class HalmaGame:
                 image = None
                 # grey squares
                 if posInfo.goal == "grey":
-                        image = Image.open(self.blank_greys)
+                    image = Image.open(self.blank_greys)
                 # white squares
-                if posInfo.goal == "white":
-                        image = Image.open(self.blank_whites)
+                elif posInfo.goal == "white":
+                    image = Image.open(self.blank_whites)
                 # goal squares
                 else: 
-                    if posInfo.piece == "red":
-                        image = Image.open(self.redp_tans)
-                    else:
+                    if posInfo.color == "green":
                         image = Image.open(self.greenp_tans)
+                    else:
+                        image = Image.open(self.redp_tans)
         
                 # image now properly set, configure 
                 image.resize((10,10), Image.ANTIALIAS)
