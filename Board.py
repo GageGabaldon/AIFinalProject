@@ -73,9 +73,9 @@ class Board:
         whiteSquare = whiteGrey[0]
         greySquare = whiteGrey[1]
 
-        for col in range(0, self.bSize):
+        for row in range(0, self.bSize):
             rowArray = []
-            for row in range(0, self.bSize):
+            for col in range(0, self.bSize):
                 if [row, col] in redGoal:
                     boardInfo = PosInfo((row, col), True, "red", "goal", "green")
                     rowArray.append(boardInfo)
