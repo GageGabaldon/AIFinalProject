@@ -30,7 +30,7 @@ class GUI:
 
         # create timer above board
         self.clock = StringVar()
-        self.timer = tk.Label(self.mainWindow, textvariable = self.clock, justify = "center")
+        self.timer = tk.Label(self.mainWindow, text = self.clock, justify = "center")
         self.clock.set("0:00:00")
         self.timer.columnconfigure(0)
         self.timer.pack()
@@ -118,8 +118,7 @@ class GUI:
 
     def update_clock(self):
         now = time.strftime("%H:%M:%S")
-        text = "5:00"
-        self.timer.configure(text=text)
+        self.timer.configure(text=now)
         self.timer.after(1000, self.update_clock)
 
     def updateGUI():
