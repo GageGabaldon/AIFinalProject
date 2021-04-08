@@ -133,6 +133,7 @@ class GUI:
         self.timer.configure(text=now)
         self.timer.after(1000, self.update_clock)
 
+    # the goal states are getting deleted and the piece is getting deleted
     def updateGUI(self, board, piece, newPos, buttonArray):
         pos1Info = board.boardArray[piece[0]][piece[1]]
         pos2Info = board.boardArray[newPos[0]][newPos[1]]

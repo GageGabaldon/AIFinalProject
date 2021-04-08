@@ -13,7 +13,10 @@ class Player:
         return nextMove
 
     def isValidMoves(self, coord):
-        return True
+        if coord in self.validMoves:
+            return True
+        else:
+            return False
 
     def isValidPiece(self, cord):
         pos = self.board.boardArray[cord[0]][cord[1]]
@@ -45,8 +48,8 @@ class Player:
             # the spaces around that piece and see if its valid
         poss_moves = []
         #row-1 to row + 1
-        for i in range(row-1,row+1):
-            for j in range(col-1,col+1):
+        for i in range(row-1, row+2):
+            for j in range(col-1, col+2):
                 sur_piece = board_arr[i][j] #surrounding piece
                 if sur_piece.piece:#if sur_piece is a piece
                     if sur_piece.color != self.whatSide:#if is enemy piece
@@ -70,8 +73,8 @@ class Player:
              
                 else:
                     poss_moves.append(sur_piece.boardPos)
-        
-        
+
+        self.validMoves = poss_moves
         #eg if piece being moved is at (0,0) then it can move to
            # (0,1), (1,0), (1, 1). (assuming space not occupied)
 
@@ -79,8 +82,6 @@ class Player:
            #if there is an enemy piece in adjacent space positionInfo
            #it can jump the enemy piece if there is an open space after tha
 
-        
-        pass
 
 
 

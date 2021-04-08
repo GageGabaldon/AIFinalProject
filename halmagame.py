@@ -44,10 +44,13 @@ class HalmaGame:
         if self.player1.turn:
             if self.player1.gotPiece:
                 if self.player1.isValidMoves((row, column)):
+                    self.board.getBoardInfo()
                     self.board.updateBoard(self.player1.piece, (row, column))
+                    self.board.getBoardInfo()
+
                     self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
                 else:
-                    self.setStatusString("Invalid move")
+                    self.gui.setStatusString("Invalid move")
             else:
                 if self.player1.isValidPiece((row, column)):
                     self.player1.moveGenerator((row, column))
@@ -70,11 +73,13 @@ class HalmaGame:
 
 
 def main():
-    size = 16
+    size = 8
     time = 1
     whatSide = "green"
     board = Board(size, time, whatSide)
     board.getBoardInfo()
+    # move a red piece to a closer green piece with update board just give it two cord and it will update board
+    # board.updateBoard((0,7), )
     player1 = Player(board, whatSide, myTurn = True)
     player2 = Player(board, whatSide = "green", myTurn = False)
     game = HalmaGame(board, player1, player2)
