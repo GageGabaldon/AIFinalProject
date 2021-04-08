@@ -4,6 +4,7 @@ from Board import Board
 import sys
 from PIL import Image, ImageTk
 
+# hi guys
 class HalmaGame:
     
     def __init__(self, board):
