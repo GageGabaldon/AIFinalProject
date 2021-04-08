@@ -60,7 +60,7 @@ class HalmaGame:
                 if posInfo.goal == "grey":
                         image = Image.open(self.blank_greys)
                 # white squares
-                if posInfo.goal = "white":
+                if posInfo.goal == "white":
                         image = Image.open(self.blank_whites)
                 # goal squares
                 else: 
@@ -73,7 +73,7 @@ class HalmaGame:
                 image.resize((10,10), Image.ANTIALIAS)
                 buttonImage = ImageTk.PhotoImage(image)
                 button = tk.Button(self.board,
-                                    command=lambda : self.buttonClicked(row, column), 
+                                    command = lambda c = (row, column): self.buttonClicked(c[0], c[1]), 
                                     #text = "b", 
                                     image = buttonImage)
                 button.image = buttonImage
@@ -81,19 +81,10 @@ class HalmaGame:
                 self.boardArray.append(button)
                 button.grid(row=row, column=column)
         
-    """
-    def buttonClicked(self, thisButton, row, column):
-        button.config(relief = solid)
-        # if first_clicked == True, this means this button is the second clicked element
-        if self.first_clicked:
-            verify(self.firstButton, self.thisButton)
-        # reset whether the game move was successful or not
-        self.firstButton.config(relief = raised)
-        self.firstButton = None
-        self.thisButton.config(relief = raised.)
-        self.firstClicked = None
-    """
-
+    def buttonClicked(self, row, column):
+        self.firstClicked = True
+        self.firstButton = (row, column)
+        print(row + ", " + column)
 
     # Display messages from program outlining what is going on
     def statusString(self):
@@ -109,7 +100,7 @@ class HalmaGame:
 
     # returns the pos of the click
     def getClicked(self):
-        pass
+        return self.firstButton
 
 def main():
     size = 8
