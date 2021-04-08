@@ -6,7 +6,10 @@ from PIL import Image, ImageTk
 
 class HalmaGame:
     
-    def __init__(self, board):
+    def __init__(self, board, player1, player2):
+        self.player1 = player1
+        self.player2 = player2
+
         # file names for button images
         self.redp_whites = "images/redpiece_whitesquare.JPG"
         self.redp_tans = "images/redpiece_tansquare.JPG"
@@ -84,6 +87,16 @@ class HalmaGame:
     def buttonClicked(self, row, column):
         self.firstClicked = True
         self.firstButton = (row, column)
+        if(self.player1.turn):
+            if(self.player1.hasPeice):
+                self.player1.piece = (row, column)
+            else:
+                if(self.player1.isValid((row, column))):
+                    self.board.updateBoard(self.player1.piece, (row, column))
+        # player two logic
+        else:
+            pass
+
         print(row + ", " + column)
 
     # Display messages from program outlining what is going on

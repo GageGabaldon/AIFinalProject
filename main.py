@@ -70,7 +70,9 @@ def main():
     time = 1
     whatSide = "green"
     board = Board(size, time, whatSide)
-    game = HalmaGame(board)
+    player = Player(board, whatSide, True)
+    player2 = Player(board, "red", False)
+    game = HalmaGame(board, player, player2)
     game.root.mainloop()
 
 main()
