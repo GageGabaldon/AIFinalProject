@@ -57,22 +57,21 @@ class GUI:
 
     def createBoardLabels(self, bSize):
         # create label frames
-        self.leftLabels = tk.Frame(self.boardOuter, width = 20, height = 20)
-        self.leftLabels.grid(row = 1, column = 0)
-        self.topLabels = tk.Frame(self.boardOuter, width = 20, height = 20)
-        self.topLabels.grid(row = 0, column = 1)
+        leftLabels = tk.Frame(self.boardOuter)
+        leftLabels.grid(row = 1, column = 0)
+        topLabels = tk.Frame(self.boardOuter)
+        topLabels.grid(row = 0, column = 1)
 
         # loop create left 1-bSize labels in column
         for x in range(1, bSize + 1):
-            label = Label(self.leftLabels, text = str(x), width = 8)
-            label.columnconfigure(x)
-            label.pack()
+            label = tk.Label(leftLabels, text = str(x), width = 1, height = 3)
+            label.grid(row = x, column = 0)
 
         # loop create top a-bSize letter labels in row
         alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"]
         boardAlphabet = alphabet[0 : bSize]
         for letter in boardAlphabet:
-            label = Label(self.topLabels, text = letter, justify = "left")
+            label = tk.Label(topLabels, text = letter, width = 6, height = 1)
             label.grid(row = 0, column = alphabet.index(letter))
         
 
@@ -122,8 +121,43 @@ class GUI:
         self.timer.configure(text=now)
         self.timer.after(1000, self.update_clock)
 
-    def updateGUI():
-        pass
+    def updateGUI(self, board, piece, newPos):
+        pos1Info = gameArray[piece[0]][piece[1]]
+        pos2Info = gameArray[newPos[0]][newPos[1]]
+
+        pos1Button = self.boardArray[pos1[0], pos1[1]]
+        pos2Button = self.boardArray[pos2[0], pos2[1]]
+
+        for posInfo in [pos1Info, pos2Info]:
+            image = None
+            #blank squares
+            if pos1Info.goal == "grey" & pos1Info.piece = "none":
+                image = Image.open(self.blank_greys)
+            elif pos1Info.goal == "white" & pos1Info.piece = "none":
+                image = Image.open(self.blank_whites)
+            elif pos1Info.goal == "goal" & pos1Info.piece = "none":
+                image = Image.open(self.blank_tans)
+            # green piece squares
+            elif pos1Info.goal == "white" & pos1Info.piece = "green":
+                image = Image.open(self.greenp_whites)
+            elif pos1Info.goal == "grey" & pos1Info.piece = "green":
+                image = Image.open(self.greenp_greys)
+            elif pos1Info.goal == "goal" & pos1Info.piece = "green":
+                image = Image.open(self.greenp_goals)
+            # red squares
+            elif pos1Info.goal == "white" & pos1Info.piece = "red":
+                image = Image.open(self.redp_whites)
+            elif pos1Info.goal == "grey" & pos1Info.piece = "red":
+                image = Image.open(self.redp_greys)
+            else:
+                image = Image.open(self.redp_goals)
+
+            if posInfo == poso1Info:
+                pos1Button.image = buttonImage
+            else:
+                pos2Button.image = buttonImage
+
+        
 
     def setStatusString(self, string):
         print(string)
