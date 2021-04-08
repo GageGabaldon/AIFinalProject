@@ -48,28 +48,28 @@ class Player:
             # the spaces around that piece and see if its valid
         poss_moves = []
         #row-1 to row + 1
-        for(i in range(row-1,row+1)):
-            for(j in range(col-1,col+1)):
+        for i in range(row-1,row+1):
+            for j in range(col-1,col+1):
                 sur_piece = board_arr[i][j] #surrounding piece
                 if sur_piece.piece:#if sur_piece is a piece
                     if sur_piece.color != self.whatSide:#if is enemy piece
                         #if theres a piece after the enemy piece to hop to(loop?)
-                        if(sur_piece[i-1][j-1].piece != True): #if theres not a piece top left
-                            poss_moves.append(sur_piece[i-1][j-1])                           
-                        if(sur_piece[i-1][j].piece != True): #if theres not a piece top
-                            poss_moves.append(sur_piece[i-1][j])
-                        if(sur_piece[i-1][j+1].piece != True): #if theres not a piece topright
-                            poss_moves.append(sur_piece[i-1][j+1])
-                        if(sur_piece[i][j+1].piece != True): #if theres not a piece right
-                            poss_moves.append(sur_piece[i][j+1])
-                        if(sur_piece[i+1][j+1].piece != True): #if theres not a piece botright
-                            poss_moves.append(sur_piece[i+1][j+1])
-                        if(sur_piece[i+1][j].piece != True): #if theres not a piece bottom
-                            poss_moves.append(sur_piece[i+1][j])
-                        if(sur_piece[i+1][j-1].piece != True): #if theres not a piece botleft
-                            poss_moves.append(sur_piece[i+1][j-1])
-                        if(sur_piece[i][j-1].piece != True): #if theres not a piece left
-                            poss_moves.append(sur_piece[i][j-1])
+                        if(board_arr[i-1][j-1].piece != True): #if theres not a piece top left
+                            poss_moves.append(board_arr[i-1][j-1])                           
+                        if(board_arr[i-1][j].piece != True): #if theres not a piece top
+                            poss_moves.append(board_arr[i-1][j])
+                        if(board_arr[i-1][j+1].piece != True): #if theres not a piece topright
+                            poss_moves.append(board_arr[i-1][j+1])
+                        if(board_arr[i][j+1].piece != True): #if theres not a piece right
+                            poss_moves.append(board_arr[i][j+1])
+                        if(board_arr[i+1][j+1].piece != True): #if theres not a piece botright
+                            poss_moves.append(board_arr[i+1][j+1])
+                        if(board_arr[i+1][j].piece != True): #if theres not a piece bottom
+                            poss_moves.append(board_arr[i+1][j])
+                        if(board_arr[i+1][j-1].piece != True): #if theres not a piece botleft
+                            poss_moves.append(board_arr[i+1][j-1])
+                        if(board_arr[i][j-1].piece != True): #if theres not a piece left
+                            poss_moves.append(board_arr[i][j-1])
              
                 else:
                     poss_moves.append(sur_piece.boardPos)
