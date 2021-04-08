@@ -31,7 +31,6 @@ class Player:
         self.gotPiece = False
         self.validMoves = []
 
-
     # do move generator logic and save into valid moves for later
     def moveGenerator(self, cord):
         pass

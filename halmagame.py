@@ -30,7 +30,6 @@ class HalmaGame:
         # create blank board using getGameArray return
         gameArray = board.boardArray
         self.gui.createBoard(self, gameArray)
-        self.gui.update_clock()
 
     def buttonClicked(self, row, column):
         print(str(row) + ", " + str(column))

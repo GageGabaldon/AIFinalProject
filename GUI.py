@@ -23,6 +23,8 @@ class GUI:
         self.root = tk.Tk() # main window
         self.root.geometry("1000x1000")
         self.root.title("Halma Game") # window name
+        self.root.after(1000, self.update_clock)
+
         self.mainWindow = tk.Frame(self.root, width = 800, height = 800) # frame holding nxn board
         self.mainWindow.pack()
 
