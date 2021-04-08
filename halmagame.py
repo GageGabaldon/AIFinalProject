@@ -38,7 +38,6 @@ class HalmaGame:
         if self.player1.turn:
 
             if self.player1.gotPiece:
-
                 if self.player1.isValid((row, column)):
                     self.board.updateBoard(self.player1.piece, (row, column))
                     gui.updateUI()
@@ -48,13 +47,13 @@ class HalmaGame:
 
                     # call the computer
                 else:
-                    self.statusString("Invalid move")
+                    self.setStatusString("Invalid move")
             else:
                 if self.player1.isValidPiece((row, column)):
                     self.player1.moveGenerator((row, column))
                     self.player1.piece = (row, column)
                 else:
-                    self.gui.statusString("Invalid move please select a valid piece")
+                    self.gui.setStatusString("Invalid move please select a valid piece")
 
         # player two logic
         else:
@@ -78,7 +77,6 @@ def main():
     player1 = Player(board, whatSide, myTurn = True)
     player2 = Player(board, whatSide = "green", myTurn = False)
     game = HalmaGame(board, player1, player2)
-    game.root.after(1000, game.gui.update_clock)
     game.root.mainloop()
 
 if __name__ == "__main__":

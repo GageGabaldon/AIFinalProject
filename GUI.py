@@ -29,7 +29,6 @@ class GUI:
         # create timer above board
         self.clock = StringVar()
         self.timer = tk.Label(self.mainWindow, textvariable = self.clock, justify = "center")
-        self.timer.after(1000, self.update_clock)
         self.clock.set("0:00:00")
         self.timer.columnconfigure(0)
         self.timer.pack()
@@ -48,6 +47,10 @@ class GUI:
         self.statusString.set("Game Start!")
         self.statusLabel.columnconfigure(2)
         self.statusLabel.pack()
+
+        # start the timer
+        self.timer.after(1000, self.update_clock)
+        self.update_clock()
 
     def createBoardLabels(self, bSize):
         # create label frames
@@ -112,15 +115,14 @@ class GUI:
         pass
 
     def update_clock(self):
-        pass
-        """
         now = time.strftime("%H:%M:%S")
-        self.timer.configure(text=now)
-        self.after(1000, self.update_clock)
-        """
+        text = "5:00"
+        self.timer.configure(text=text)
+        self.timer.after(1000, self.update_clock)
 
     def updateGUI():
         pass
 
     def setStatusString(self, string):
+        print(string)
         self.statusString.set(string)
