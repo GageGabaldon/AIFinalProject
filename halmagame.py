@@ -24,7 +24,7 @@ class HalmaGame:
 
         # call a window creator class
         # create GUI (main window, configured columns/ frames, etc..)
-        self.gui = GUI()
+        self.gui = GUI(self.tLimit)
         self.root = self.gui.root
 
         # create blank board using getGameArray return

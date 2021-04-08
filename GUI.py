@@ -5,7 +5,7 @@ import time
 
 class GUI:
 
-    def __init__(self):
+    def __init__(self, time):
         # find square images
         self.redp_whites = "images/redpiece_whitesquare.JPG"
         self.redp_tans = "images/redpiece_tansquare.JPG"
@@ -52,6 +52,7 @@ class GUI:
 
         # start the timer
         self.timer.after(1000, self.update_clock)
+        self.timeLimit = time
         self.update_clock()
 
     def createBoardLabels(self, bSize):
