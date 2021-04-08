@@ -35,14 +35,30 @@ class Player:
     # do move generator logic and save into valid moves for later
     def moveGenerator(self, cord):
         #get the piece being moved
-        #piece = which_player.getPiece()
+        
+        board_arr = self.board.boardArray 
+        #piece = which_player.getPiece() idk about this
         
         #get the position (posInfo possibly)
-        #    coords = getPos(board)
+        row = cord[0]
+        col = cord[1]
+        current_pos = board_arr[row][col]
         
         #use those coordinates of the piece to check
             # the spaces around that piece and see if its valid
-            
+        poss_moves = []
+        #row-1 to row + 1
+        for(i in range(row-1,row+1)):
+            for(j in range(col-1,col+1)):
+                sur_piece = board_arr[i][j] #surrounding piece
+                if sur_piece.piece:
+                    if sur_piece.color != self.whatSide:
+                        #if theres a piece after the enemy piece to hop to(loop?)
+
+                else:
+                    poss_moves.append(sur_piece.boardPos)
+                
+        
         #eg if piece being moved is at (0,0) then it can move to
            # (0,1), (1,0), (1, 1). (assuming space not occupied)
 
