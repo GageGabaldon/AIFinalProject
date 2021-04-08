@@ -5,7 +5,7 @@ import time
 
 class GUI:
 
-    def __init__(self, time):
+    def __init__(self, time, board):
         # find square images
         self.redp_whites = "images/redpiece_whitesquare.JPG"
         self.redp_tans = "images/redpiece_tansquare.JPG"
@@ -18,6 +18,8 @@ class GUI:
         self.blank_whites = "images/blank_whitesquare.JPG"
         self.blank_tans = "images/blank_tansquare.JPG"
         self.blank_greys = "images/blank_greysquare.JPG"
+
+        self.boardObject = board
 
         # call a window creator class
         self.root = tk.Tk() # main window
@@ -49,6 +51,11 @@ class GUI:
         self.statusString.set("Game Start!")
         self.statusLabel.columnconfigure(2)
         self.statusLabel.pack()
+
+        # create end turn button below status label
+        self.endTurnButton = tk.Button(self.mainWindow, text = "End Turn", command = self.endTurnButton)
+        self.endTurnButton.columnconfigure(3)  
+        self.endTurnButton.pack()
 
         # start the timer
         self.timer.after(1000, self.update_clock)
@@ -125,37 +132,41 @@ class GUI:
         pos1Info = gameArray[piece[0]][piece[1]]
         pos2Info = gameArray[newPos[0]][newPos[1]]
 
-        pos1Button = board.boardArray[pos1[0], pos1[1]]
-        pos2Button = board.boardArray[pos2[0], pos2[1]]
+        pos1Button = board.boardArray[pos1Info[0], pos1Info[1]]
+        pos2Button = board.boardArray[pos2Info[0], pos2Info[1]]
 
         for posInfo in [pos1Info, pos2Info]:
             image = None
             #blank squares
-            if pos1Info.goal == "grey" & pos1Info.piece == "none":
+            if posInfo.goal == "grey" & pos1Info.piece == "none":
                 image = Image.open(self.blank_greys)
-            elif pos1Info.goal == "white" & pos1Info.piece == "none":
+            elif posInfo.goal == "white" & pos1Info.piece == "none":
                 image = Image.open(self.blank_whites)
-            elif pos1Info.goal == "goal" & pos1Info.piece == "none":
+            elif posInfo.goal == "goal" & pos1Info.piece == "none":
                 image = Image.open(self.blank_tans)
             # green piece squares
-            elif pos1Info.goal == "white" & pos1Info.piece == "green":
+            elif posInfo.goal == "white" & pos1Info.piece == "green":
                 image = Image.open(self.greenp_whites)
-            elif pos1Info.goal == "grey" & pos1Info.piece == "green":
+            elif posInfo.goal == "grey" & pos1Info.piece == "green":
                 image = Image.open(self.greenp_greys)
-            elif pos1Info.goal == "goal" & pos1Info.piece == "green":
+            elif posInfo.goal == "goal" & pos1Info.piece == "green":
                 image = Image.open(self.greenp_goals)
             # red squares
-            elif pos1Info.goal == "white" & pos1Info.piece == "red":
+            elif posInfo.goal == "white" & pos1Info.piece == "red":
                 image = Image.open(self.redp_whites)
-            elif pos1Info.goal == "grey" & pos1Info.piece == "red":
+            elif posInfo.goal == "grey" & pos1Info.piece == "red":
                 image = Image.open(self.redp_greys)
             else:
                 image = Image.open(self.redp_goals)
 
             if posInfo == poso1Info:
-                pos1Button.image = buttonImage
+                pos1Button.image = image
             else:
-                pos2Button.image = buttonImage
+                pos2Button.image = image
+
+    def endTurnButton(self):
+        self.boardObject.endTurnHappened = True
+        self.setStatusString("Player Ended Turn")
 
     def setStatusString(self, string):
         print(string)

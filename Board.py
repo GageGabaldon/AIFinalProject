@@ -7,6 +7,7 @@ class Board:
         self.greenGoal = []
         self.boardArray = self.getGameArray()
         self.whatSide = whatSide
+        self.endTurnHappened = False
 
         if(whatSide == "green"):
             self.computerPieces = "red"
