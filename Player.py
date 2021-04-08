@@ -31,6 +31,7 @@ class Player:
         self.gotPiece = False
         self.validMoves = []
 
+
     # do move generator logic and save into valid moves for later
     def moveGenerator(self, cord):
         #get the piece being moved
@@ -47,8 +48,8 @@ class Player:
             # the spaces around that piece and see if its valid
         poss_moves = []
         #row-1 to row + 1
-        for(i in range(row-1:row+1)):
-            for(j in range(col-1:col+1)):
+        for(i in range(row-1,row+1)):
+            for(j in range(col-1,col+1)):
                 sur_piece = board_arr[i][j] #surrounding piece
                 if sur_piece.piece:
                     if sur_piece.color != self.whatSide:
@@ -56,7 +57,7 @@ class Player:
 
                 else:
                     poss_moves.append(sur_piece.boardPos)
-
+                
         
         #eg if piece being moved is at (0,0) then it can move to
            # (0,1), (1,0), (1, 1). (assuming space not occupied)
