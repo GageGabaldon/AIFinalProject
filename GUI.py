@@ -135,39 +135,42 @@ class GUI:
 
     # the goal states are getting deleted and the piece is getting deleted
     def updateGUI(self, board, piece, newPos, buttonArray):
+        print("Pieces: " + str(piece[0]) +  ", " + str(piece[1]))
         pos1Info = board.boardArray[piece[0]][piece[1]]
         pos2Info = board.boardArray[newPos[0]][newPos[1]]
 
         pos1Button = buttonArray[pos1Info.boardPos[0]][pos1Info.boardPos[1]]
-        pos2Button = buttonArray[pos2Info.boardPos[0]][ pos2Info.boardPos[1]]
+        pos2Button = buttonArray[pos2Info.boardPos[0]][pos2Info.boardPos[1]]
 
         for posInfo in [pos1Info, pos2Info]:
             image = None
             #blank squares
-            if posInfo.goal == "grey" and pos1Info.color == "none":
-                image = Image.open(self.blank_greys)
-            elif posInfo.goal == "white" and pos1Info.color == "none":
-                image = Image.open(self.blank_whites)
-            elif posInfo.goal == "goal" and pos1Info.color == "none":
-                image = Image.open(self.blank_tans)
+            if posInfo.goal == "grey" and posInfo.color == "none":
+                image = ImageTk.PhotoImage(Image.open(self.blank_greys))
+            elif posInfo.goal == "white" and posInfo.color == "none":
+                image = ImageTk.PhotoImage(Image.open(self.blank_whites))
+            elif posInfo.goal == "goal" and posInfo.color == "none":
+                image = ImageTk.PhotoImage(Image.open(self.blank_tans))
             # green piece squares
-            elif posInfo.goal == "white" and pos1Info.color == "green":
-                image = Image.open(self.greenp_whites)
-            elif posInfo.goal == "grey" and pos1Info.color == "green":
-                image = Image.open(self.greenp_greys)
-            elif posInfo.goal == "goal" and pos1Info.color == "green":
-                image = Image.open(self.greenp_goals)
+            elif posInfo.goal == "white" and posInfo.color == "green":
+                image = ImageTk.PhotoImage(Image.open(self.greenp_whites))
+            elif posInfo.goal == "grey" and posInfo.color == "green":
+                image = ImageTk.PhotoImage(Image.open(self.greenp_greys))
+            elif posInfo.goal == "goal" and posInfo.color == "green":
+                image = ImageTk.PhotoImage(Image.open(self.greenp_goals))
             # red squares
-            elif posInfo.goal == "white" and pos1Info.color == "red":
-                image = Image.open(self.redp_whites)
-            elif posInfo.goal == "grey" and pos1Info.color == "red":
-                image = Image.open(self.redp_greys)
+            elif posInfo.goal == "white" and posInfo.color == "red":
+                image = ImageTk.PhotoImage(Image.open(self.redp_whites))
+            elif posInfo.goal == "grey" and posInfo.color == "red":
+                image = ImageTk.PhotoImage(Image.open(self.redp_greys))
             else:
-                image = Image.open(self.redp_goals)
+                image = ImageTk.PhotoImage(Image.open(self.redp_goals))
 
             if posInfo == pos1Info:
+                pos1Button.configure(image = image)
                 pos1Button.image = image
             else:
+                pos2Button.configure(image = image)
                 pos2Button.image = image
 
     def endTurnButton(self):
