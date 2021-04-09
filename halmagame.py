@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter as tk
 from Board import Board
 from GUI import GUI
-from Player import Player 
+from Player import Player
 import sys
 
 class HalmaGame:
@@ -44,10 +44,7 @@ class HalmaGame:
         if self.player1.turn:
             if self.player1.gotPiece:
                 if self.player1.isValidMoves((row, column)):
-                    self.board.getBoardInfo()
                     self.board.updateBoard(self.player1.piece, (row, column))
-                    self.board.getBoardInfo()
-
                     self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
                 else:
                     self.gui.setStatusString("Invalid move")
@@ -61,16 +58,26 @@ class HalmaGame:
 
         # player two logic
         else:
-            pass
+            if self.player2.gotPiece:
+                if self.player2.isValidMoves((row, column)):
+                    self.board.updateBoard(self.player2.piece, (row, column))
+                    self.gui.updateGUI(self.board, self.player2.pece, (row, column), self.boardArray)
+                else:
+                    self.gui.setStatusString("Invalid Move")
+            else:
+                if self.player2.isValidPiece((row, column)):
+                    self.player2.moveGenerator((row, column))
+                    self.player2.piece = (row, column)
+                    self.player2.gotPiece = True
+                else:
+                    self.gui.setStatusString("Invalid move please select a valid piece")
 
         if(self.board.gameWon):
             self.setStatusString("you won")
 
-
     # updates the board based on what pieces have been moved at what coordinate and to what coordinate
     def update(self):
         pass
-
 
 def main():
     size = 8
@@ -81,12 +88,12 @@ def main():
     # move a red piece to a closer green piece with update board just give it two cord and it will update board
     # board.updateBoard((0,7), )
     player1 = Player(board, whatSide, myTurn = True)
-    player2 = Player(board, whatSide = "green", myTurn = False)
+    player2 = Player(board, "red", myTurn = False)
     game = HalmaGame(board, player1, player2)
     game.root.mainloop()
 
 if __name__ == "__main__":
     main()
 
-# make buttons stay highlighted when clicked 
+# make buttons stay highlighted when clicked
 # unhighlight when clicked again
