@@ -7,13 +7,13 @@ class GUI:
 
     def __init__(self, time, board):
         # find square images
-        self.redp_whites = "images/redpiece_whitesquare.JPG"
-        self.redp_tans = "images/redpiece_tansquare.JPG"
-        self.redp_greys = "images/redpiece_greysquare.JPG"
+        self.redp_whites = "images/redpiece_whitesquare.jpg"
+        self.redp_tans = "images/redpiece_tansquare.jpg"
+        self.redp_greys = "images/redpiece_greysquare.jpg"
 
-        self.greenp_whites = "images/greenpiece_whitesquare.JPG"
-        self.greenp_tans = "images/greenpiece_tansquare.JPG"
-        self.greenp_greys = "images/greenpiece_greysquare.JPG"
+        self.greenp_whites = "images/greenpiece_whitesquare.jpg"
+        self.greenp_tans = "images/greenpiece_tansquare.jpg"
+        self.greenp_greys = "images/greenpiece_greysquare.jpg"
 
         self.blank_whites = "images/blank_whitesquare.JPG"
         self.blank_tans = "images/blank_tansquare.JPG"
@@ -54,7 +54,7 @@ class GUI:
 
         # create end turn button below status label
         self.endTurnButton = tk.Button(self.mainWindow, text = "End Turn", command = self.endTurnButton)
-        self.endTurnButton.columnconfigure(3)  
+        self.endTurnButton.columnconfigure(3)
         self.endTurnButton.pack()
 
         # start the timer
@@ -80,7 +80,7 @@ class GUI:
         for letter in boardAlphabet:
             label = tk.Label(topLabels, text = letter, width = 6, height = 1)
             label.grid(row = 0, column = alphabet.index(letter))
-        
+
 
     def createBoard(self, halmaGame, gameArray):
         self.board.width = halmaGame.bSize * 40
@@ -95,7 +95,7 @@ class GUI:
                 button = None
                 # position info for current row/column location
                 posInfo = gameArray[row][column] # boardPos, piece, color, goal
-                
+
                 image = None
                 # grey squares
                 if posInfo.goal == "grey":
@@ -104,18 +104,18 @@ class GUI:
                 elif posInfo.goal == "white":
                     image = Image.open(self.blank_whites)
                 # goal squares
-                else: 
+                else:
                     if posInfo.color == "green":
                         image = Image.open(self.greenp_tans)
                     else:
                         image = Image.open(self.redp_tans)
-        
-                # image now properly set, configure 
+
+                # image now properly set, configure
                 image.resize((10,10), Image.ANTIALIAS)
                 buttonImage = ImageTk.PhotoImage(image)
                 button = tk.Button(self.board,
-                                    command = lambda c = (row, column): halmaGame.buttonClicked(c[0], c[1]), 
-                                    #text = "b", 
+                                    command = lambda c = (row, column): halmaGame.buttonClicked(c[0], c[1]),
+                                    #text = "b",
                                     image = buttonImage)
                 button.image = buttonImage
                 button.configure(height = 40, width = 40)

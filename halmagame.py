@@ -6,9 +6,6 @@ from Player import Player
 import sys
 
 class HalmaGame:
-    def __init__(self, board):
-        pass
-
     def __init__(self, board, player1, player2):
         self.player1 = player1
         self.player2 = player2
@@ -30,6 +27,7 @@ class HalmaGame:
         # create blank board using getGameArray return
         gameArray = board.boardArray
         self.gui.createBoard(self, gameArray)
+
     # main function that runs all the game logic on a click by click basis
     def buttonClicked(self, row, column):
         print(str(row) + ", " + str(column))
@@ -42,10 +40,11 @@ class HalmaGame:
             else:
                 self.player2.endTurn()
                 self.player1.turn = True
+            # set the board end clicked to false
+            self.board.endTurnHappened = False
 
         # check whos turn it is
         if self.player1.turn:
-
             # check if they got a pice
             if self.player1.gotPiece:
                 # check if the move they are currently making is valid
@@ -54,7 +53,7 @@ class HalmaGame:
                     self.board.updateBoard(self.player1.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
                 else:
-                    self.gui.setStatusString("Invalid move")
+                    self.gui.setStatusString("Invalid move to move, select again")
             else:
                 # check if the click position is a piece to move
                 if self.player1.isValidPiece((row, column)):
@@ -63,31 +62,31 @@ class HalmaGame:
                     self.player1.piece = (row, column)
                     self.player1.gotPiece = True
                 else:
-                    self.gui.setStatusString("Invalid move please select a valid piece")
+                    self.gui.setStatusString("Invalid piece to move. Please select a valid piece")
 
         # player two logic
         else:
             if self.player2.gotPiece:
                 if self.player2.isValidMoves((row, column)):
                     self.board.updateBoard(self.player2.piece, (row, column))
-                    self.gui.updateGUI(self.board, self.player2.pece, (row, column), self.boardArray)
+                    self.gui.updateGUI(self.board, self.player2.piece, (row, column), self.boardArray)
                 else:
-                    self.gui.setStatusString("Invalid Move")
+                    self.gui.setStatusString("Invalid move to move too")
             else:
                 if self.player2.isValidPiece((row, column)):
                     self.player2.moveGenerator((row, column))
                     self.player2.piece = (row, column)
                     self.player2.gotPiece = True
                 else:
-                    self.gui.setStatusString("Invalid move please select a valid piece")
+                    self.gui.setStatusString("Invalid piece please select a valid piece")
 
         # check if game won before continuing
-        if(self.board.gameWon):
-            self.setStatusString("you won")
-
-    # updates the board based on what pieces have been moved at what coordinate and to what coordinate
-    def update(self):
-        pass
+        if(self.player1.turn):
+            if(self.board.winCondition(self.player1.whatSide)):
+                self.setStatusString("Player 1 has won")
+        else:
+            if(self.board.winCondition(self.player2.whatSide)):
+                self.setStatusString("Player 2 has won")
 
 def main():
     size = 8

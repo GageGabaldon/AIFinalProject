@@ -14,12 +14,14 @@ class Player:
             return True
         else:
             return False
+
     # checks if the place getting clicked has a pice on it
     def isValidPiece(self, cord):
         pos = self.board.boardArray[cord[0]][cord[1]]
-        if(pos.piece):
+        if(pos.piece and pos.color == self.whatSide):
             return True
         return False
+
     # reset the player class
     def endTurn(self):
         self.turn = False

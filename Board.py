@@ -14,6 +14,7 @@ class Board:
         else:
             self.computerPieces = "green"
 
+    # Finds the white grey squares for displaying
     def findWhiteGrey(self):
         whiteSquares = []
         greySquares = []
@@ -21,10 +22,11 @@ class Board:
             for col in range(0, self.bSize):
                 if (row % 2 == 0 and col % 2 != 0) or (row % 2 != 0 and col % 2 == 0):
                     whiteSquares.append((row, col))
-                else: 
+                else:
                     greySquares.append((row, col))
         return (whiteSquares, greySquares)
 
+    # generates the goal states to be used.
     def getGoal(self):
         redgoal = [[0, self.bSize - 1], [0, self.bSize - 2], [0, self.bSize -3], [0, self.bSize - 4],
                    [1, self.bSize - 1], [1, self.bSize - 2], [1, self.bSize - 3], [2, self.bSize -1], [2, self.bSize - 2],
@@ -58,7 +60,8 @@ class Board:
                 greengoal.append([self.bSize - 2, 4])
 
         return (redgoal, greengoal)
-
+        
+    # generates the game array to be used.
     def getGameArray(self):
         columnArray = []
         rowArray = []
@@ -96,6 +99,7 @@ class Board:
 
         return columnArray
 
+    # checks to see if all the pieces are on the goal states of the opposite corner
     def winCondition(self, color):
         redWin = False
         greenWin = False
@@ -103,13 +107,13 @@ class Board:
         redCounter = 0
         numberOfRedGoals = len(self.redGoal)
         for state in self.redGoal:
-            if state.goal():
+            if state.colorGoal == state.color:
                 redCounter += 1
 
         greenCounter = 0
         numberOfGreenGoals = len(self.greenGoal)
         for state in self.greenGoal:
-            if state.goal():
+            if state.colorGoal == state.color:
                 greenCounter += 1
 
         if(greenCounter == numberOfGreenGoals):
@@ -122,7 +126,8 @@ class Board:
             return greenWin
         else:
             return redWin
-    
+
+    # displays the board information to the user
     def getBoardInfo(self):
         for col in range(0, self.bSize):
             for row in range(0, self.bSize):
@@ -137,6 +142,7 @@ class Board:
         pos1.updatePos("none")
         pos2.updatePos(color)
 
+# the board information at any given position
 class PosInfo:
     def __init__(self, boardPos, piece, color, goal, colorGoal):
         self.boardPos = boardPos
@@ -168,4 +174,4 @@ class PosInfo:
             return False
 
     def displayInfo(self):
-        print(str(self.boardPos) + " " + str(self.color) + " " + str(self.goal))
+        print(str(self.boardPos) + " " + str(self.color) + " " + str(self.colorGoal))
