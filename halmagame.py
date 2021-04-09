@@ -30,9 +30,11 @@ class HalmaGame:
         # create blank board using getGameArray return
         gameArray = board.boardArray
         self.gui.createBoard(self, gameArray)
-
+    # main function that runs all the game logic on a click by click basis
     def buttonClicked(self, row, column):
         print(str(row) + ", " + str(column))
+
+        # if the end turn button has been clicked reset player and switch turn
         if self.board.endTurnHappened:
             if self.player1.turn:
                 self.player1.endTurn()
@@ -41,15 +43,22 @@ class HalmaGame:
                 self.player2.endTurn()
                 self.player1.turn = True
 
+        # check whos turn it is
         if self.player1.turn:
+
+            # check if they got a pice
             if self.player1.gotPiece:
+                # check if the move they are currently making is valid
                 if self.player1.isValidMoves((row, column)):
+                    # update the board object and the ui
                     self.board.updateBoard(self.player1.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
                 else:
                     self.gui.setStatusString("Invalid move")
             else:
+                # check if the click position is a piece to move
                 if self.player1.isValidPiece((row, column)):
+                    # generate all the moves that piece can move to
                     self.player1.moveGenerator((row, column))
                     self.player1.piece = (row, column)
                     self.player1.gotPiece = True
@@ -72,6 +81,7 @@ class HalmaGame:
                 else:
                     self.gui.setStatusString("Invalid move please select a valid piece")
 
+        # check if game won before continuing
         if(self.board.gameWon):
             self.setStatusString("you won")
 
