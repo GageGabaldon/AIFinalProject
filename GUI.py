@@ -157,14 +157,14 @@ class GUI:
             elif posInfo.goal == "grey" and posInfo.color == "green":
                 image = ImageTk.PhotoImage(Image.open(self.greenp_greys))
             elif posInfo.goal == "goal" and posInfo.color == "green":
-                image = ImageTk.PhotoImage(Image.open(self.greenp_goals))
+                image = ImageTk.PhotoImage(Image.open(self.greenp_tans))
             # red squares
             elif posInfo.goal == "white" and posInfo.color == "red":
                 image = ImageTk.PhotoImage(Image.open(self.redp_whites))
             elif posInfo.goal == "grey" and posInfo.color == "red":
                 image = ImageTk.PhotoImage(Image.open(self.redp_greys))
             else:
-                image = ImageTk.PhotoImage(Image.open(self.redp_goals))
+                image = ImageTk.PhotoImage(Image.open(self.redp_tans)) #changed redp_goals to redp_tans
 
             if posInfo == pos1Info:
                 pos1Button.configure(image = image)

@@ -45,8 +45,8 @@ class Player:
             # the spaces around that piece and see if its valid
         poss_moves = []
         #row-1 to row + 1
-        for i in range(row-1, row+2):
-            for j in range(col-1, col+2):
+        for i in range(row-1, row+2): #originally was row-1, row+2
+            for j in range(col-1, col+2): #originally was col-1, col+2
                 sur_piece = board_arr[i][j] #surrounding piece
                 if sur_piece.piece:#if sur_piece is a piece
                     if sur_piece.color != self.whatSide:#if is enemy piece
