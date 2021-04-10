@@ -86,7 +86,7 @@ class HalmaGame:
                     self.board.updateBoard(self.player2.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player2.piece, (row, column), self.boardArray)
                 else:
-                    self.gui.setStatusString("Invalid move to move too")
+                    self.gui.setStatusString("Invalid move to move to")
             else:
                 if self.player2.isValidPiece((row, column)):
                     self.player2.moveGenerator((row, column))

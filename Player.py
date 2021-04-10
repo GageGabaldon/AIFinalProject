@@ -34,6 +34,7 @@ class Player:
         #get the piece being moved
 
         board_arr = self.board.boardArray
+        board_size = self.board.bSize
         #piece = which_player.getPiece() idk about this
 
         #get the position (posInfo possibly)
@@ -47,31 +48,36 @@ class Player:
         #row-1 to row + 1
         for i in range(row-1, row+2): #originally was row-1, row+2
             for j in range(col-1, col+2): #originally was col-1, col+2
-                sur_piece = board_arr[i][j] #surrounding piece
-                if sur_piece.piece:#if sur_piece is a piece
-                    if sur_piece.color != self.whatSide:#if is enemy piece
-                        #if theres a piece after the enemy piece to hop to(loop?)
-                        if(board_arr[i-1][j-1].piece != True): #if theres not a piece top left
-                            poss_moves.append(board_arr[i-1][j-1])
-                        if(board_arr[i-1][j].piece != True): #if theres not a piece top
-                            poss_moves.append(board_arr[i-1][j])
-                        if(board_arr[i-1][j+1].piece != True): #if theres not a piece topright
-                            poss_moves.append(board_arr[i-1][j+1])
-                        if(board_arr[i][j+1].piece != True): #if theres not a piece right
-                            poss_moves.append(board_arr[i][j+1])
-                        if(board_arr[i+1][j+1].piece != True): #if theres not a piece botright
-                            poss_moves.append(board_arr[i+1][j+1])
-                        if(board_arr[i+1][j].piece != True): #if theres not a piece bottom
-                            poss_moves.append(board_arr[i+1][j])
-                        if(board_arr[i+1][j-1].piece != True): #if theres not a piece botleft
-                            poss_moves.append(board_arr[i+1][j-1])
-                        if(board_arr[i][j-1].piece != True): #if theres not a piece left
-                            poss_moves.append(board_arr[i][j-1])
+                if( i > 0 and i < board_size and j > 0 and j < board_size):
+                    sur_piece = board_arr[i][j] #surrounding piece
+                    if sur_piece.piece:#if sur_piece is a piece
+                        if sur_piece.color != self.whatSide:#if is enemy piece
+                            #if theres a piece after the enemy piece to hop to(loop?)
+                            if(board_arr[i-1][j-1].piece != True): #if theres not a piece top left
+                                poss_moves.append(board_arr[i-1][j-1])
+                            if(board_arr[i-1][j].piece != True): #if theres not a piece top
+                                poss_moves.append(board_arr[i-1][j])
+                            if(board_arr[i-1][j+1].piece != True): #if theres not a piece topright
+                                poss_moves.append(board_arr[i-1][j+1])
+                            if(board_arr[i][j+1].piece != True): #if theres not a piece right
+                                poss_moves.append(board_arr[i][j+1])
+                            if(board_arr[i+1][j+1].piece != True): #if theres not a piece botright
+                                poss_moves.append(board_arr[i+1][j+1])
+                            if(board_arr[i+1][j].piece != True): #if theres not a piece bottom
+                                poss_moves.append(board_arr[i+1][j])
+                            if(board_arr[i+1][j-1].piece != True): #if theres not a piece botleft
+                                poss_moves.append(board_arr[i+1][j-1])
+                            if(board_arr[i][j-1].piece != True): #if theres not a piece left
+                                poss_moves.append(board_arr[i][j-1])
 
+                    else:
+                        poss_moves.append(sur_piece.boardPos)
                 else:
-                    poss_moves.append(sur_piece.boardPos)
+                    pass
+        
 
         self.validMoves = poss_moves
+        print(poss_moves)
         #eg if piece being moved is at (0,0) then it can move to
            # (0,1), (1,0), (1, 1). (assuming space not occupied)
 
