@@ -62,11 +62,20 @@ class HalmaGame:
         if self.player1.turn:
             # check if they got a pice
             if self.player1.gotPiece:
-                # check if the move they are currently making is valid
-                if self.player1.isValidMoves((row, column)):
+                # if the player is clicking an already clicked piece
+                if(self.player1.piece[0] == row and self.player1.piece[1] == column):
+                    # check if the player has jumped a piece already
+                    if(self.player1.hasJumped()):
+                        # call move generator again.
+                        self.player1.moveGenerator((row, column))
+                    else:
+                        # no more valid moves to move too.
+                        self.gui.setStatusString("Invalid move to move to already moved that piece")
+                elif self.player1.isValidMoves((row, column)):
                     # update the board object and the ui
                     self.board.updateBoard(self.player1.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
+                    self.player1.piece = (row, column)
                 else:
                     self.gui.setStatusString("Invalid move to move, select again")
             else:
@@ -82,9 +91,15 @@ class HalmaGame:
         # player two logic
         else:
             if self.player2.gotPiece:
-                if self.player2.isValidMoves((row, column)):
+                if(self.player2.piece[0] == row and self.player2.piece[1] == column):
+                    if(self.player2.hasJumped()):
+                        self.player2.moveGenerator((row, column))
+                    else:
+                        self.gui.setStatusString("Invalid move to move to already moved that piece")
+                elif self.player2.isValidMoves((row, column)):
                     self.board.updateBoard(self.player2.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player2.piece, (row, column), self.boardArray)
+                    self.player2.piece = (row, column)
                 else:
                     self.gui.setStatusString("Invalid move to move to")
             else:
