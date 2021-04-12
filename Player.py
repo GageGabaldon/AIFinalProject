@@ -16,7 +16,7 @@ class Player:
         if coord in self.validJumpMoves:
             self.hasHopped = True
             return True
-        if coord in self.validMoves:
+        elif coord in self.validMoves:
             return True
         return False
 
@@ -33,6 +33,7 @@ class Player:
         self.piece = (-1, -1)
         self.gotPiece = False
         self.validMoves = []
+        self.hasHopped = False
 
     # do move generator logic and save into valid moves for later
     def moveGenerator(self, cord):

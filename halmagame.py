@@ -120,10 +120,10 @@ class HalmaGame:
         # check if game won before continuing
         if(self.player1.turn):
             if(self.board.winCondition(self.player1.whatSide)):
-                self.setStatusString("Player 1 has won")
+                self.gui.setStatusString("Player 1 has won")
         else:
             if(self.board.winCondition(self.player2.whatSide)):
-                self.setStatusString("Player 2 has won")
+                self.gui.setStatusString("Player 2 has won")
 
 def main():
     size = 8
