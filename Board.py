@@ -117,10 +117,12 @@ class Board:
                 greenCounter += 1
 
         if(greenCounter == numberOfGreenGoals):
+            self.gameWon = True
             greenWin = True
 
         if(redCounter == numberOfRedGoals):
             redWin = True
+            self.gameWon = True
 
         if color == "green":
             return greenWin

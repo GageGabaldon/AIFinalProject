@@ -46,6 +46,8 @@ class HalmaGame:
     # main function that runs all the game logic on a click by click basis
     def buttonClicked(self, row, column):
         print(str(row) + ", " + str(column))
+        if self.board.gameWon:
+            return
 
         # if the end turn button has been clicked reset player and switch turn
         if self.board.endTurnHappened:
