@@ -7,13 +7,18 @@ class Player:
         self.gotPiece = False
         self.piece = (-1, -1)
         self.validMoves = []
+        self.validJumpMoves = []
+        self.hasHopped = False
 
     # checks if the move being made is valid
     def isValidMoves(self, coord):
+        # if validJumpMoves > 0 then a jump is mossible 
+        if coord in self.validJumpMoves:
+            self.hasHopped = True
+            return True
         if coord in self.validMoves:
             return True
-        else:
-            return False
+        return False
 
     # checks if the place getting clicked has a pice on it
     def isValidPiece(self, cord):
@@ -40,46 +45,43 @@ class Player:
         #get the position (posInfo possibly)
         row = cord[0]
         col = cord[1]
-        current_pos = board_arr[row][col]
+        curr_space = board_arr[row][col]
 
         #use those coordinates of the piece to check
             # the spaces around that piece and see if its valid
+        self.validMoves = []
+        self.validJumpMoves = []
         poss_moves = []
+        jump_moves = []
         #row-1 to row + 1
         for i in range(row-1, row+2):
             for j in range(col-1, col+2):
-                if( i > 0 and i < board_size and j > 0 and j < board_size):
-                    sur_piece = board_arr[i][j] #surrounding piece
-                    if sur_piece.piece:#if sur_piece is a piece
-                        if sur_piece.color != self.whatSide:#if is enemy piece
-                            #if theres a piece after the enemy piece to hop to(loop?)
-                            if(board_arr[i-1][j-1].piece == True and board_arr[i-1][j-1].piece != True): #if theres not a piece top left
-                                poss_moves.append(board_arr[row-2][col-2].boardPos)#jump to it
-                                print(f"{board_arr[row-2][col-2].boardPos} this should work")
-                            if(board_arr[i-2][j].piece != True): #if theres not a piece top
-                                poss_moves.append(board_arr[i-2][j].boardPos) #changed the i-1 to i-2
-                                
-                            if(board_arr[i-2][j+2].piece != True): #if theres not a piece topright
-                                poss_moves.append(board_arr[i-2][j+2].boardPos)
-                            if(board_arr[i][j+2].piece != True): #if theres not a piece right
-                                poss_moves.append(board_arr[i][j+2].boardPos)
-                            if(board_arr[i+2][j+2].piece != True): #if theres not a piece botright
-                                poss_moves.append(board_arr[i+2][j+2].boardPos)
-                            if(board_arr[i+2][j].piece != True): #if theres not a piece bottom
-                                poss_moves.append(board_arr[i+2][j].boardPos)
-                            if(board_arr[i+2][j-2].piece != True): #if theres not a piece botleft
-                                poss_moves.append(board_arr[i+2][j-2].boardPos)
-                            if(board_arr[i][j-2].piece != True): #if theres not a piece left
-                                poss_moves.append(board_arr[i][j-2].boardPos)
-
+                # if space is within board (not going over edge)
+                if( i >= 0 and i < board_size and j >= 0 and j < board_size):
+                    sur_space = board_arr[i][j] #surrounding space
+                    if sur_space.piece:# if sur_piece is a piece
+                        # if is enemy piece
+                        if sur_space.color != self.whatSide:
+                            difference_row = i - row # surrounding piece pos - current piece pos
+                            difference_col = j - col # surrounding piece pos - current piece pos
+                            # add this difference to the surrounding piece, to then find
+                            # the space we land after jumping
+                            jump_space_row = i + difference_row
+                            jump_space_col = j + difference_col
+                            # only space you can land if trying to jump, append to poss moves.
+                            if (jump_space_row < board_size and jump_space_row >= 0) and ( jump_space_col < board_size and jump_space_col >= 0):
+                                jump_moves.append((jump_space_row, jump_space_col))
                     else:
-                        poss_moves.append(sur_piece.boardPos)
-                else:
-                    pass
+                        poss_moves.append(sur_space.boardPos)   
         
+        if self.hasHopped:
+            self.validJumpMoves = jump_moves
+        else:
+            self.validMoves = poss_moves
+            self.validJumpMoves = jump_moves
+        print(f"valid moves {poss_moves}")
+        print(f"jump moves {jump_moves}")
 
-        self.validMoves = poss_moves
-        print(poss_moves)
         #eg if piece being moved is at (0,0) then it can move to
            # (0,1), (1,0), (1, 1). (assuming space not occupied)
 

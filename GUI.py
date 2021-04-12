@@ -20,6 +20,7 @@ class GUI:
         self.blank_greys = "images/blank_greysquare.JPG"
 
         self.boardObject = board
+        self.buttonArray = []
 
         # call a window creator class
         self.root = tk.Tk() # main window
@@ -45,22 +46,33 @@ class GUI:
         self.board = tk.Frame(self.boardOuter)
         self.board.grid(row = 1, column = 1)
 
-        # create status label below board
+
+
+        # create status labels below board
+        self.playerString = StringVar()
+        self.playerLabel = tk.Label(self.mainWindow, textvariable = self.playerString, justify = "center")
+        self.playerString.set("It is green's turn!")
+        self.playerLabel.columnconfigure(2)
+        self.playerLabel.pack()
+
         self.statusString = StringVar()
         self.statusLabel = tk.Label(self.mainWindow, textvariable = self.statusString, justify = "center")
         self.statusString.set("Game Start!")
-        self.statusLabel.columnconfigure(2)
+        self.statusLabel.columnconfigure(3)
         self.statusLabel.pack()
 
         # create end turn button below status label
         self.endTurnButton = tk.Button(self.mainWindow, text = "End Turn", command = self.endTurnButton)
-        self.endTurnButton.columnconfigure(3)
+        self.endTurnButton.columnconfigure(4)
         self.endTurnButton.pack()
 
         # start the timer
         self.timer.after(1000, self.update_clock)
         self.timeLimit = time
         self.update_clock()
+
+        # variable that flips every time end turn is triggered to display whose turn it is
+        self.whosTurn = "green"
 
     def createBoardLabels(self, bSize):
         # create label frames
@@ -123,10 +135,17 @@ class GUI:
                 button.grid(row=row, column=column)
 
             halmaGame.boardArray.append(tempArray)
+            self.buttonArray.append(tempArray) 
         self.createBoardLabels(halmaGame.bSize)
 
     def resetTimer(self, halmaGame):
         pass
+
+    def highlight(self, button, highlight):
+        if highlight:
+            button.configure(relief = "solid")
+        else:
+            button.configure(relief = "raised")
 
     def update_clock(self):
         now = time.strftime("%H:%M:%S")
@@ -175,7 +194,19 @@ class GUI:
 
     def endTurnButton(self):
         self.boardObject.endTurnHappened = True
-        self.setStatusString("Player Ended Turn")
+        for row in self.buttonArray:
+            for button in row:
+                self.highlight(button, False)
+
+        if self.whosTurn == "green":
+            self.setPlayerString("It is now red's turn")
+            self.whosTurn = "red"
+        else:
+            self.setPlayerString("It is now green's turn")
+            self.whosTurn = "green"
+
+    def setPlayerString(self, string):
+        self.playerString.set(string)
 
     def setStatusString(self, string):
         print(string)

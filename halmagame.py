@@ -65,7 +65,7 @@ class HalmaGame:
                 # if the player is clicking an already clicked piece
                 if(self.player1.piece[0] == row and self.player1.piece[1] == column):
                     # check if the player has jumped a piece already
-                    if(self.player1.hasJumped()):
+                    if(self.player1.hasHopped):
                         # call move generator again.
                         self.player1.moveGenerator((row, column))
                     else:
@@ -75,6 +75,7 @@ class HalmaGame:
                     # update the board object and the ui
                     self.board.updateBoard(self.player1.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
+                    self.gui.highlight(self.boardArray[self.player1.piece[0]][self.player1.piece[1]], False)
                     self.player1.piece = (row, column)
                 else:
                     self.gui.setStatusString("Invalid move to move, select again")
@@ -85,6 +86,8 @@ class HalmaGame:
                     self.player1.moveGenerator((row, column))
                     self.player1.piece = (row, column)
                     self.player1.gotPiece = True
+                    self.gui.highlight(self.boardArray[row][column], True)
+                    
                 else:
                     self.gui.setStatusString("Invalid piece to move. Please select a valid piece")
 
@@ -92,13 +95,14 @@ class HalmaGame:
         else:
             if self.player2.gotPiece:
                 if(self.player2.piece[0] == row and self.player2.piece[1] == column):
-                    if(self.player2.hasJumped()):
+                    if(self.player2.hasHopped):
                         self.player2.moveGenerator((row, column))
                     else:
                         self.gui.setStatusString("Invalid move to move to already moved that piece")
                 elif self.player2.isValidMoves((row, column)):
                     self.board.updateBoard(self.player2.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player2.piece, (row, column), self.boardArray)
+                    self.gui.highlight(self.boardArray[self.player2.piece[0]][self.player2.piece[1]], False)
                     self.player2.piece = (row, column)
                 else:
                     self.gui.setStatusString("Invalid move to move to")
@@ -107,6 +111,7 @@ class HalmaGame:
                     self.player2.moveGenerator((row, column))
                     self.player2.piece = (row, column)
                     self.player2.gotPiece = True
+                    self.gui.highlight(self.boardArray[row][column], True)
                 else:
                     self.gui.setStatusString("Invalid piece please select a valid piece")
 
