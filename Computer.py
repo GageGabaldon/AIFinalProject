@@ -8,6 +8,9 @@ class Computer:
         self.turn = myTurn
         self.time = timeLimit
         self.abEnabled = ab
+        self.validMoves = []
+        self.validJumpMoves = []
+        self.hasHopped = False
 
     def MakeAMove(self, depth, playerColor,  a=float("-inf"),
                 b=float("inf"), maxing=True, prunes=0, boards=0):
@@ -58,10 +61,6 @@ class Computer:
         return best_val, best_move, prunes, boards
 
     def boardMoves(self, color):
-        pass
-
-    # this prunes the sub trees of the search space.
-    def AlphaPrunning(self):
         pass
 
     # this just compares every piece to the goal using a distance formula
