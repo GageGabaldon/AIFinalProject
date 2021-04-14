@@ -64,10 +64,31 @@ class Computer:
     def AlphaPrunning(self):
         pass
 
-    #
-
     # this just compares every piece to the goal using a distance formula
     def utility(self, color):
-        pass
+        # determine goal states based on enemy color
+        goalSpaces = None
+        if playerColor == "green":
+            goalSpaces = self.redGoal
+        else:
+            goalSpaces = self.greenGoal
+        
+        # remove already occupied goalSpaces
+        for goal in goalSpace:
+            if goal.piece != "none":
+                goalSpaces.remove(goal)
+
+        distanceValue = 0
+        # loop through all spaces
+        for row in self.boardArray:
+            for col in row:
+                currPiece = self.boardArray[row][column]
+                currFurthestGoal = # unoccupied
+                # find each player piece's distance to a unoccupied goal state
+                if currPiece.piece != "none" and color == playerColor:
+
+
+        # return distance
+        return distanceValue
 
 
