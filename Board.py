@@ -14,6 +14,21 @@ class Board:
         else:
             self.computerPieces = "green"
 
+    def __init__(self, board):
+        self.gameWon = board.gameWon
+        self.timeLimit = board.timeLimit
+        self.bSize = board.boardSize
+        self.redGoal = board.redGoal
+        self.greenGoal = board.greenGoal
+        self.boardArray = board.boardArray
+        self.whatSide = board.whatSide
+        self.endTurnHappened = board.endTurnHappened
+
+        if(whatSide == "green"):
+            self.computerPieces = "red"
+        else:
+            self.computerPieces = "green"
+
     # Finds the white grey squares for displaying
     def findWhiteGrey(self):
         whiteSquares = []

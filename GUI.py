@@ -38,28 +38,27 @@ class GUI:
         self.timer.columnconfigure(0)
         self.timer.pack()
 
+        # create status string above board
+        self.statusString = StringVar()
+        self.statusLabel = tk.Label(self.mainWindow, textvariable = self.statusString, justify = "center")
+        self.statusString.set("Game Start!")
+        self.statusLabel.columnconfigure(1)
+        self.statusLabel.pack()
+
         # create board frame
         self.boardOuter = tk.Frame(self.mainWindow, width = 1000, height = 1000) # frame holding nxn board
-        self.boardOuter.columnconfigure(1)
+        self.boardOuter.columnconfigure(12)
         self.boardOuter.pack()
 
         self.board = tk.Frame(self.boardOuter)
         self.board.grid(row = 1, column = 1)
 
-
-
-        # create status labels below board
+        # create whos turn label below board
         self.playerString = StringVar()
         self.playerLabel = tk.Label(self.mainWindow, textvariable = self.playerString, justify = "center")
         self.playerString.set("It is green's turn!")
-        self.playerLabel.columnconfigure(2)
+        self.playerLabel.columnconfigure(3)
         self.playerLabel.pack()
-
-        self.statusString = StringVar()
-        self.statusLabel = tk.Label(self.mainWindow, textvariable = self.statusString, justify = "center")
-        self.statusString.set("Game Start!")
-        self.statusLabel.columnconfigure(3)
-        self.statusLabel.pack()
 
         # create end turn button below status label
         self.endTurnButton = tk.Button(self.mainWindow, text = "End Turn", command = self.endTurnButton)

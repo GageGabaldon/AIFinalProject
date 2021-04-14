@@ -1,70 +1,86 @@
 import time
+import Player
 
-class Computer:
+class Computer(Player):
 
-    def __init__(self, board, whatSide, myTurn, timeLimit, ab=True):
+    def __init__(self, bSize, board, enemyPlayer, whatSide, myTurn, timeLimit, ab=True):
+        Player.__init__(self) # subclass of player
         self.board = board
-        self.whatSide = whatSide
+        self.color = whatSide
+        self.enemyColor = None
+        if self.color == "green":
+            self.enemyColor = "red"
+        else:
+            self.enemyColor = "green"
         self.turn = myTurn
         self.time = timeLimit
-        self.abEnabled = ab
+        self.ab = ab
         self.validMoves = []
         self.validJumpMoves = []
         self.hasHopped = False
 
-    def MakeAMove(self, depth, playerColor,  a=float("-inf"),
-                b=float("inf"), maxing=True, prunes=0, boards=0):
+    # calls boardStatesHelper with the starting parameters
+    def boardStates(self)
+        return boardStatesHelper(self.board, self.color, 0, 0, 1)
 
-        if depth == 0 or self.board.gameWon(playerColor) or time.time() > self.time:
-            return self.utility(playerColor), None, prunes, boards
+    # recursively makes moves and returns back path value to find best value/move
+    def boardStatesHelper(self, board, whosTurn, prunes, numMoves)
 
-        best_move = None
-        if maxing:
-            best_val = float("-inf")
-        else:
-            best_val = float("inf")
+        # check if goal board state found or ran out of time, return current value
+        if self.board.gameWon(whosTurn) or time.time() > self.time():
+            return utility(whosTurn), prunes, numMoves
+        depth += 1 # increment depth
+        possibleMoves = self.boardMoves(whosTurn)
+        # best board value for max would be the lowest sLD or for min it would be the highest sLD
+        bestBoardValue = None
+        bestBoardMove = None
+        for piece, moves in possibleMoves:
+            for move in moves:
+                numMoves += 1 # keep track of number of moves made
 
-        moves = self.boardMoves(playerColor)
+                # copy of board to not mess with original board
+                copyBoard = Board(self.originalboard)
+                # update the board with a move in order to find next depth board state
+                self.copyBoard.updateBoard(piece, moves)
+                pathValue = utility(self, copyBoard, playerColor)
 
-        for move in moves:
-            for moveTo in move["move"]:
-                if time.time() > self.time:
-                    return best_val, best_move, prunes, boards
+                # recursively call with whose next turn it is (will be flipping between min and max based on playerColor)
+                moveValue, movePrunes, moveBoard = None
+                if whosTurn != self.color:
+                    moveValue, movePrunes, moveBoard = self.createBoardStatesHelper(copyBoard, self.color, prunes, numMoves, depth)
+                else
+                    moveValue, movePrunes, moveBoard = self.createBoardStateHelper(copyBoard, self.enemycolor, prunes, numMoves, depth)
 
-                piece = move["piece"]
-                newPos = moveTo
-                self.board.updateBoard(piece, newPos)
-                boards += 1
+                # update best value/move based on whos turn it is (if its min or max we are tracking)
+                if whosTurn == self.color & (moveValue < bestBoardValue or bestBoardValue == None:
+                    bestBoardValue == moveValue
+                    bestBoardMove = (piece, move)
+                if whosTurn != self.color & (moveValue > worstBoardValue or worstBoardValue == None):
+                    bestBoardValue == moveValue
+                    bestBoardMove = (piece, move)
+                
+                # return if current for loop pathing is proving to be weak / bad
+                if ab == True:
+                    return bestBoardValue, bestBoardMove, prunes, numMoves
 
-                val, _, new_prunes, new_boards = self.MakeAMove(depth - 1,
-                                                                playerColor,
-                                                                a, b, not maxing,
-                                                                prunes, boards)
-                prunes = new_prunes
-                boards = new_boards
+        # return best first move/value found, number of prunces, and number of states created.
+        return bestBoardValue, bestBoardMove, prunes, numMoves
 
-                self.board.updateBoard(newPos, piece)
 
-                if maxing and val > best_val:
-                    best_val = val
-                    best_move = (piece, newPos)
-                    a = max(a, val)
-
-                if not maxing and val < best_val:
-                    best_val = val
-                    best_move = (piece, newPos)
-                    b = min(b, val)
-
-                if self.abEnabled and b <= a:
-                    return best_val, best_move, prunes + 1, boards
-
-        return best_val, best_move, prunes, boards
-
-    def boardMoves(self, color):
-        pass
+    def boardMoves(self, playerColor):
+        moves = []
+        for row in range(self.bSize):
+            for col in range(self.bSize):
+                if board[row][col].color == playerColor: # find player color piece
+                    piece = board[row][col]
+                    pieceMoves = self.moveGenerator(row, col) # calculate possible moves of that piece
+                    moves.append(piece, piecesMoves) # append as tuple pairs 
+        return moves
 
     # this just compares every piece to the goal using a distance formula
-    def utility(self, color):
+    def utility(self, board, color):
         pass
+
+
 
 
