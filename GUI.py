@@ -5,7 +5,7 @@ import time
 
 class GUI:
 
-    def __init__(self, time, board):
+    def __init__(self, time, board, halmaGame):
         # find square images
         self.redp_whites = "images/redpiece_whitesquare.jpg"
         self.redp_tans = "images/redpiece_tansquare.jpg"
@@ -23,6 +23,7 @@ class GUI:
         self.fadeRedHex = "#FF6961"
         self.defaultHex = "#F0F0F0"
 
+        self.halmaGame = halmaGame
         self.boardObject = board
         self.buttonArray = []
 
@@ -218,7 +219,6 @@ class GUI:
         if self.boardObject.gameWon:
             self.setPlayerString("")
             return
-        self.boardObject.endTurnHappened = True
         # loop to look through all buttons and find appropiate
         for row in self.buttonArray:
             for button in row:
@@ -238,6 +238,9 @@ class GUI:
         else:
             self.setPlayerString("It is now green's turn")
             self.whosTurn = "green"
+        
+        self.boardObject.endTurnHappened = True
+        self.halmaGame.checkForComputer()
 
     def setPlayerString(self, string):
         self.playerString.set(string)

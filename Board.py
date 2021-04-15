@@ -69,8 +69,6 @@ class Board:
         goals = self.getGoal()
         redGoal = goals[0]
         greenGoal = goals[1]
-        print(redGoal)
-        print(greenGoal)
 
         whiteGrey = self.findWhiteGrey()
         whiteSquare = whiteGrey[0]
@@ -100,7 +98,6 @@ class Board:
         return columnArray
 
     # checks to see if all the pieces are on the goal states of the opposite corner
-    # takes in a string check, which if true then does NOT change self.gameWon
     def winCondition(self, color):
         redWin = False
         greenWin = False
@@ -125,6 +122,8 @@ class Board:
             self.gameWon = True
             redWin = True
 
+        print(f"greenCounter:{greenCounter} redCounter:{redCounter} numRed:{numberOfRedGoals} numGreen:{numberOfGreenGoals}")
+        print(self.redGoal)
         if color == "green":
             return greenWin
         else:

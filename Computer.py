@@ -31,11 +31,12 @@ class Computer(Player):
 
     # recursively makes moves and returns back path value to find best value/move
     def boardStatesHelper(self, board, whosTurn, bestVal, worstVal, prunes, numMoves):
-        print(numMoves)
+        # print(numMoves)
+    
         # check if goal board state found or ran out of time, return current value
         # do NOT set gameWon, just check!!
         if board.winCondition(whosTurn):
-            return self.utility(board, whosTurn), prunes, numMoves
+            return self.utility(board, whosTurn), None, prunes, numMoves
         # depth += 1 # increment depth
         possibleMoves = self.boardMoves(board, whosTurn)
         # best board value for max would be the lowest sLD or for min it would be the highest sLD
@@ -60,13 +61,13 @@ class Computer(Player):
                 if whosTurn != self.whatSide:
                     moveOutput = self.boardStatesHelper(board, self.whatSide, bestVal, worstVal, prunes, numMoves)
                     moveValue = moveOutput[0]
-                    movePrunes = moveOutput[1]
-                    moveBoard = moveOutput[2]
+                    movePrunes = moveOutput[2]
+                    moveBoard = moveOutput[3]
                 else:
                     moveOutput = self.boardStatesHelper(board, self.enemyColor, bestVal, worstVal, prunes, numMoves)
                     moveValue = moveOutput[0]
-                    movePrunes = moveOutput[1]
-                    moveBoard = moveOutput[2]
+                    movePrunes = moveOutput[2]
+                    moveBoard = moveOutput[3]
 
                 # reset original board
                 board.updateBoard(move, (pieceCoord[0], pieceCoord[1]))
@@ -86,7 +87,6 @@ class Computer(Player):
                 # return and end current loop through moves if bestVal meets or is worse than worstVal
                 if self.ab == True & bestVal <= worstVal:
                     return bestBoardValue, bestBoardMove, prunes + 1, numMoves
-
         # return best first move/value found, number of prunces, and number of states created.
         return bestBoardValue, bestBoardMove, prunes, numMoves
 

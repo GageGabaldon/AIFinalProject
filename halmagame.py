@@ -37,12 +37,13 @@ class HalmaGame:
 
         # call a window creator class
         # create GUI (main window, configured columns/ frames, etc..)
-        self.gui = GUI(self.tLimit, self.board)
+        self.gui = GUI(self.tLimit, self.board, self)
         self.root = self.gui.root
 
         # create blank board using getGameArray return
         gameArray = board.boardArray
         self.gui.createBoard(self, gameArray)
+
 
     # main function that runs all the game logic on a click by click basis
     def buttonClicked(self, row, column):
@@ -94,32 +95,61 @@ class HalmaGame:
                     
                 else:
                     self.gui.setStatusString("Invalid piece to move. Please select a valid piece")
-
-        # assume computer
-        else:
-            #self.gui.disableButtons(False)
-            computer = self.player2
-            bestBoardValue, bestBoardMove, prunes, numMoves = computer.boardStates()
-            
-            piece = bestBoardMove[0]
-            pieceCoord = piece.boardPos
-            moveCoord = bestBoardMove[1]
-            
-            self.board.updateBoard(piece.boardPos, moveCoord)
-            self.gui.updateGUI(self.board, pieceCoord, moveCoord, self.boardArray)
-            # highlight the move made
-            self.gui.highlight(self.boardArray[pieceCoord[0]][pieceCoord[1]], "highlight", self.player2.whatSide)
-            self.gui.highlight(self.boardArray[moveCoord[0]][moveCoord[1]], "highlight", self.player2.whatSide)
-            computer.piece = moveCoord
-            self.gui.endTurnClicked()
             
         # check if game won before continuing
         if(self.player1.turn):
+            print(f"It is {self.player1.whatSide}'s turn.")
             if(self.board.winCondition(self.player1.whatSide)):
                 self.gui.setStatusString("Player 1 has won")
         else:
             if(self.board.winCondition(self.player2.whatSide)):
                 self.gui.setStatusString("Player 2 has won") # CHANGE TO COMPUTER HAS WON
+
+    def checkForComputer(self):
+        # check if end turn happened
+        if self.board.endTurnHappened:
+            if self.player1.turn:
+                self.player1.endTurn()
+                self.player2.turn = True
+            else:
+                self.player2.endTurn()
+                self.player1.turn = True
+            # set the board end clicked to false
+            self.board.endTurnHappened = False
+        #self.gui.disableButtons(False)
+
+        # if it is not player's turn
+        if self.player2.turn:
+            self.computerMove()
+
+    def computerMove(self):
+
+        computer = self.player2
+        bestBoardValue, bestBoardMove, prunes, numMoves = computer.boardStates()
+                
+        piece = bestBoardMove[0]
+        pieceCoord = piece.boardPos
+        moveCoord = bestBoardMove[1]
+                
+        self.board.updateBoard(piece.boardPos, moveCoord)
+        self.gui.updateGUI(self.board, pieceCoord, moveCoord, self.boardArray)
+        # highlight the move made
+        self.gui.highlight(self.boardArray[pieceCoord[0]][pieceCoord[1]], "highlight", self.player2.whatSide)
+        self.gui.highlight(self.boardArray[moveCoord[0]][moveCoord[1]], "highlight", self.player2.whatSide)
+        computer.piece = moveCoord
+
+        if(self.player1.turn):
+            won = self.board.winCondition(self.player1.whatSide)
+            print(won)
+            if(won):
+                self.gui.setStatusString("Player 1 has won")
+        else:
+            won = self.board.winCondition(self.player2.whatSide)
+            print(won)
+            if(won):
+                self.gui.setStatusString("Player 2 has won") # CHANGE TO COMPUTER HAS WON
+
+        self.gui.endTurnClicked()
 
 def main():
     size = 8
