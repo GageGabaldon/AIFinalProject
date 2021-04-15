@@ -27,6 +27,9 @@ class Player:
             return True
         return False
 
+    def getValidMoves(self):
+        return (self.validMoves, self.validJumpMoves)
+
     # reset the player class
     def endTurn(self):
         self.turn = False
@@ -80,8 +83,8 @@ class Player:
         else:
             self.validMoves = poss_moves
             self.validJumpMoves = jump_moves
-        print(f"valid moves {poss_moves}")
-        print(f"jump moves {jump_moves}")
+        #print(f"valid moves {poss_moves}")
+        #print(f"jump moves {jump_moves}")
 
         #eg if piece being moved is at (0,0) then it can move to
            # (0,1), (1,0), (1, 1). (assuming space not occupied)

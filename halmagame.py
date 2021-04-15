@@ -3,6 +3,7 @@ import tkinter as tk
 from Board import Board
 from GUI import GUI
 from Player import Player
+from Computer import Computer
 import sys
 
 """
@@ -21,8 +22,8 @@ TODO: test the rest of the playign of the game.
 """
 
 class HalmaGame:
-    def __init__(self, board, player1, player2):
-        self.player1 = player1
+    def __init__(self, board, player, player2):
+        self.player1 = player
         self.player2 = player2
         self.board = board
 
@@ -62,6 +63,7 @@ class HalmaGame:
 
         # check whos turn it is
         if self.player1.turn:
+            #self.gui.enableButtons(True)
             # check if they got a pice
             if self.player1.gotPiece:
                 # if the player is clicking an already clicked piece
@@ -77,7 +79,7 @@ class HalmaGame:
                     # update the board object and the ui
                     self.board.updateBoard(self.player1.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
-                    self.gui.highlight(self.boardArray[self.player1.piece[0]][self.player1.piece[1]], False)
+                    self.gui.highlight(self.boardArray[row][column], "highlight", self.player1.whatSide)
                     self.player1.piece = (row, column)
                 else:
                     self.gui.setStatusString("Invalid move to move, select again")
@@ -88,42 +90,36 @@ class HalmaGame:
                     self.player1.moveGenerator((row, column))
                     self.player1.piece = (row, column)
                     self.player1.gotPiece = True
-                    self.gui.highlight(self.boardArray[row][column], True)
+                    self.gui.highlight(self.boardArray[row][column], "highlight", self.player1.whatSide)
                     
                 else:
                     self.gui.setStatusString("Invalid piece to move. Please select a valid piece")
 
-        # player two logic
+        # assume computer
         else:
-            if self.player2.gotPiece:
-                if(self.player2.piece[0] == row and self.player2.piece[1] == column):
-                    if(self.player2.hasHopped):
-                        self.player2.moveGenerator((row, column))
-                    else:
-                        self.gui.setStatusString("Invalid move to move to already moved that piece")
-                elif self.player2.isValidMoves((row, column)):
-                    self.board.updateBoard(self.player2.piece, (row, column))
-                    self.gui.updateGUI(self.board, self.player2.piece, (row, column), self.boardArray)
-                    self.gui.highlight(self.boardArray[self.player2.piece[0]][self.player2.piece[1]], False)
-                    self.player2.piece = (row, column)
-                else:
-                    self.gui.setStatusString("Invalid move to move to")
-            else:
-                if self.player2.isValidPiece((row, column)):
-                    self.player2.moveGenerator((row, column))
-                    self.player2.piece = (row, column)
-                    self.player2.gotPiece = True
-                    self.gui.highlight(self.boardArray[row][column], True)
-                else:
-                    self.gui.setStatusString("Invalid piece please select a valid piece")
-
+            #self.gui.disableButtons(False)
+            computer = self.player2
+            bestBoardValue, bestBoardMove, prunes, numMoves = computer.boardStates()
+            
+            piece = bestBoardMove[0]
+            pieceCoord = piece.boardPos
+            moveCoord = bestBoardMove[1]
+            
+            self.board.updateBoard(piece.boardPos, moveCoord)
+            self.gui.updateGUI(self.board, pieceCoord, moveCoord, self.boardArray)
+            # highlight the move made
+            self.gui.highlight(self.boardArray[pieceCoord[0]][pieceCoord[1]], "highlight", self.player2.whatSide)
+            self.gui.highlight(self.boardArray[moveCoord[0]][moveCoord[1]], "highlight", self.player2.whatSide)
+            computer.piece = moveCoord
+            self.gui.endTurnClicked()
+            
         # check if game won before continuing
         if(self.player1.turn):
             if(self.board.winCondition(self.player1.whatSide)):
                 self.gui.setStatusString("Player 1 has won")
         else:
             if(self.board.winCondition(self.player2.whatSide)):
-                self.gui.setStatusString("Player 2 has won")
+                self.gui.setStatusString("Player 2 has won") # CHANGE TO COMPUTER HAS WON
 
 def main():
     size = 8
@@ -133,9 +129,11 @@ def main():
     board.getBoardInfo()
     # move a red piece to a closer green piece with update board just give it two cord and it will update board
     # board.updateBoard((0,7), )
-    player1 = Player(board, whatSide, myTurn = True)
-    player2 = Player(board, "red", myTurn = False)
-    game = HalmaGame(board, player1, player2)
+    player = Player(board, whatSide, myTurn = True)
+    #player2 = Player(board, "red", myTurn = False)
+    computer = Computer(size, board, "red", False, time, ab=True)
+    #game = HalmaGame(board, player, player2)
+    game = HalmaGame(board, player, computer)
     game.root.mainloop()
 
 if __name__ == "__main__":

@@ -14,21 +14,6 @@ class Board:
         else:
             self.computerPieces = "green"
 
-    def __init__(self, board):
-        self.gameWon = board.gameWon
-        self.timeLimit = board.timeLimit
-        self.bSize = board.boardSize
-        self.redGoal = board.redGoal
-        self.greenGoal = board.greenGoal
-        self.boardArray = board.boardArray
-        self.whatSide = board.whatSide
-        self.endTurnHappened = board.endTurnHappened
-
-        if(whatSide == "green"):
-            self.computerPieces = "red"
-        else:
-            self.computerPieces = "green"
-
     # Finds the white grey squares for displaying
     def findWhiteGrey(self):
         whiteSquares = []
@@ -115,6 +100,7 @@ class Board:
         return columnArray
 
     # checks to see if all the pieces are on the goal states of the opposite corner
+    # takes in a string check, which if true then does NOT change self.gameWon
     def winCondition(self, color):
         redWin = False
         greenWin = False
@@ -136,8 +122,8 @@ class Board:
             greenWin = True
 
         if(redCounter == numberOfRedGoals):
-            redWin = True
             self.gameWon = True
+            redWin = True
 
         if color == "green":
             return greenWin
@@ -149,6 +135,12 @@ class Board:
         for col in range(0, self.bSize):
             for row in range(0, self.bSize):
                 self.boardArray[col][row].displayInfo()
+
+    def getGoals(self):
+        return (self.redGoal, self.greenGoal)
+
+    def getBoardArray(self):
+        return self.boardArray
 
     # assume input is valid
     def updateBoard(self, piece, newPos):

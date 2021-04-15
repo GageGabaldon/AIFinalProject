@@ -19,6 +19,10 @@ class GUI:
         self.blank_tans = "images/blank_tansquare.JPG"
         self.blank_greys = "images/blank_greysquare.JPG"
 
+        self.fadeGreenHex = "#90ee90"
+        self.fadeRedHex = "#FF6961"
+        self.defaultHex = "#F0F0F0"
+
         self.boardObject = board
         self.buttonArray = []
 
@@ -61,7 +65,7 @@ class GUI:
         self.playerLabel.pack()
 
         # create end turn button below status label
-        self.endTurnButton = tk.Button(self.mainWindow, text = "End Turn", command = self.endTurnButton)
+        self.endTurnButton = tk.Button(self.mainWindow, text = "End Turn", command = self.endTurnClicked)
         self.endTurnButton.columnconfigure(4)
         self.endTurnButton.pack()
 
@@ -127,7 +131,9 @@ class GUI:
                 button = tk.Button(self.board,
                                     command = lambda c = (row, column): halmaGame.buttonClicked(c[0], c[1]),
                                     #text = "b",
-                                    image = buttonImage)
+                                    image = buttonImage,
+                                    borderwidth = 3,
+                                    bg = self.defaultHex)# default button color
                 button.image = buttonImage
                 button.configure(height = 40, width = 40)
                 tempArray.append(button)
@@ -140,11 +146,18 @@ class GUI:
     def resetTimer(self, halmaGame):
         pass
 
-    def highlight(self, button, highlight):
-        if highlight:
-            button.configure(relief = "solid")
+    def highlight(self, button, highlight, playerColor):
+        if highlight == "highlight":
+            # button.configure(relief = "solid")
+            button.configure(bg = playerColor) # dark player color
+        elif highlight == "fade":
+            if playerColor == "green":
+                button.configure(bg = self.fadeGreenHex) # light green
+            else:
+                button.configure(bg = self.fadeRedHex) # light red
+        # else unhighlight
         else:
-            button.configure(relief = "raised")
+            button.configure(bg = self.defaultHex) # default border color
 
     def update_clock(self):
         now = time.strftime("%H:%M:%S")
@@ -191,13 +204,35 @@ class GUI:
                 pos2Button.configure(image = image)
                 pos2Button.image = image
 
-    def endTurnButton(self):
+    # disables buttons if computer's turn, enables when player's turn
+    def enableButtons(self, enable):
+        if enable:
+            for row in self.buttonArray:
+                for button in row:
+                    button.configure(state = "disabled")
+        else:
+            for button in self.buttonArray:
+                button.configure(state = "normal")
+
+    def endTurnClicked(self):
+        if self.boardObject.gameWon:
+            self.setPlayerString("")
+            return
         self.boardObject.endTurnHappened = True
+        # loop to look through all buttons and find appropiate
         for row in self.buttonArray:
             for button in row:
-                self.highlight(button, False)
-
-        if self.whosTurn == "green":
+                if self.whosTurn == "green": # if green is ending their turn, fade their move and unhighlight red
+                    if button.cget("bg") == "green":
+                        self.highlight(button, "fade", "green")
+                    elif button.cget("bg") == "red":
+                        self.highlight(button, "unhighlight", "red")
+                else: # if red is ending their turn, fade their move and unhighlight green
+                    if button.cget("bg") == "red":
+                        self.highlight(button, "fade", "red")
+                    elif button.cget("bg") == "green":
+                        self.highlight(button, "unhighlight", "green")
+        if self.whosTurn == "green":                
             self.setPlayerString("It is now red's turn")
             self.whosTurn = "red"
         else:
