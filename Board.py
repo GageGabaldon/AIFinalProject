@@ -60,7 +60,7 @@ class Board:
                 greengoal.append([self.bSize - 2, 4])
 
         return (redgoal, greengoal)
-        
+
     # generates the game array to be used.
     def getGameArray(self):
         columnArray = []
@@ -98,7 +98,7 @@ class Board:
         return columnArray
 
     # checks to see if all the pieces are on the goal states of the opposite corner
-    def winCondition(self, color):
+    def winCondition(self, color, check):
         redWin = False
         greenWin = False
 
@@ -115,11 +115,13 @@ class Board:
                 greenCounter += 1
 
         if(greenCounter == numberOfGreenGoals):
-            self.gameWon = True
+            if not check:
+                self.gameWon = True
             greenWin = True
 
         if(redCounter == numberOfRedGoals):
-            self.gameWon = True
+            if not check:
+                self.gameWon = True
             redWin = True
 
         print(f"greenCounter:{greenCounter} redCounter:{redCounter} numRed:{numberOfRedGoals} numGreen:{numberOfGreenGoals}")
@@ -136,7 +138,9 @@ class Board:
                 self.boardArray[col][row].displayInfo()
 
     def getGoals(self):
-        return (self.redGoal, self.greenGoal)
+        red = self.redGoal.copy()
+        green = self.greenGoal.copy()
+        return (red, green)
 
     def getBoardArray(self):
         return self.boardArray

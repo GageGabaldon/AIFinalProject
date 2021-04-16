@@ -26,16 +26,14 @@ class Computer(Player):
     def boardStates(self):
         print("Starting Board State Recursion")
         output = self.boardStatesHelper(self.board, self.whatSide, 999, -999, 0, 0)
-        self.board.gameWon = False
         return output
 
     # recursively makes moves and returns back path value to find best value/move
     def boardStatesHelper(self, board, whosTurn, bestVal, worstVal, prunes, numMoves):
         # print(numMoves)
-    
         # check if goal board state found or ran out of time, return current value
         # do NOT set gameWon, just check!!
-        if board.winCondition(whosTurn):
+        if board.winCondition(whosTurn, True):
             return self.utility(board, whosTurn), None, prunes, numMoves
         # depth += 1 # increment depth
         possibleMoves = self.boardMoves(board, whosTurn)
@@ -83,7 +81,7 @@ class Computer(Player):
                     bestBoardMove = (piece, move)
                     if bestBoardValue > worstVal:
                         worstVal = bestBoardValue
-                
+
                 # return and end current loop through moves if bestVal meets or is worse than worstVal
                 if self.ab == True & bestVal <= worstVal:
                     return bestBoardValue, bestBoardMove, prunes + 1, numMoves
@@ -100,7 +98,7 @@ class Computer(Player):
                     piece = board[row][col]
                     self.moveGenerator((row, col)) # calculate possible moves of that piece
                     validMoves, jumpMoves = self.getValidMoves()
-                    moves.append((piece, validMoves, jumpMoves)) # append as tuple pairs 
+                    moves.append((piece, validMoves, jumpMoves)) # append as tuple pairs
         return moves
 
     # only currently uses straight line distance formula. bare bones.
@@ -118,7 +116,7 @@ class Computer(Player):
             if goal.piece == True:
                 goals.remove(goal)
 
-        # add up sLD to nearest unoccupied goal 
+        # add up sLD to nearest unoccupied goal
         boardArray = board.getBoardArray()
         totalValue = 0
         for row in range(self.bSize):
@@ -133,7 +131,7 @@ class Computer(Player):
                         sLD = math.sqrt( (goal.boardPos[0] - x)**2 + (goal.boardPos[1] - y)**2 )
                         if sLD < shortestDistance or shortestDistance == -999:
                             shortestDistance = sLD
-                # add to total value for board 
+                # add to total value for board
                 totalValue += shortestDistance
         return totalValue
 

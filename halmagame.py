@@ -92,17 +92,17 @@ class HalmaGame:
                     self.player1.piece = (row, column)
                     self.player1.gotPiece = True
                     self.gui.highlight(self.boardArray[row][column], "highlight", self.player1.whatSide)
-                    
+
                 else:
                     self.gui.setStatusString("Invalid piece to move. Please select a valid piece")
-            
+
         # check if game won before continuing
         if(self.player1.turn):
             print(f"It is {self.player1.whatSide}'s turn.")
-            if(self.board.winCondition(self.player1.whatSide)):
+            if(self.board.winCondition(self.player1.whatSide, False)):
                 self.gui.setStatusString("Player 1 has won")
         else:
-            if(self.board.winCondition(self.player2.whatSide)):
+            if(self.board.winCondition(self.player2.whatSide, False)):
                 self.gui.setStatusString("Player 2 has won") # CHANGE TO COMPUTER HAS WON
 
     def checkForComputer(self):
@@ -126,11 +126,11 @@ class HalmaGame:
 
         computer = self.player2
         bestBoardValue, bestBoardMove, prunes, numMoves = computer.boardStates()
-                
+
         piece = bestBoardMove[0]
         pieceCoord = piece.boardPos
         moveCoord = bestBoardMove[1]
-                
+
         self.board.updateBoard(piece.boardPos, moveCoord)
         self.gui.updateGUI(self.board, pieceCoord, moveCoord, self.boardArray)
         # highlight the move made
@@ -139,12 +139,12 @@ class HalmaGame:
         computer.piece = moveCoord
 
         if(self.player1.turn):
-            won = self.board.winCondition(self.player1.whatSide)
+            won = self.board.winCondition(self.player1.whatSide, False)
             print(won)
             if(won):
                 self.gui.setStatusString("Player 1 has won")
         else:
-            won = self.board.winCondition(self.player2.whatSide)
+            won = self.board.winCondition(self.player2.whatSide, False)
             print(won)
             if(won):
                 self.gui.setStatusString("Player 2 has won") # CHANGE TO COMPUTER HAS WON
