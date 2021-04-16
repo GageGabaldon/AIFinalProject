@@ -138,7 +138,3 @@ class Computer(Player):
                 # add to total value for board
                 totalValue += shortestDistance
         return totalValue
-
-
-
-

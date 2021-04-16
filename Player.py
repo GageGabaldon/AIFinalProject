@@ -92,9 +92,3 @@ class Player:
 
            #if there is an enemy piece in adjacent space positionInfo
            #it can jump the enemy piece if there is an open space after tha
-
-
-
-
-
-

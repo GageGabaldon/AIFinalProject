@@ -19,7 +19,7 @@ class GUI:
         self.blank_tans = "images/blank_tansquare.JPG"
         self.blank_greys = "images/blank_greysquare.JPG"
 
-        self.fadeGreenHex = "#90ee90"
+        self.fadeGreenHex = "#92CA91"
         self.fadeRedHex = "#FF6961"
         self.defaultHex = "#F0F0F0"
 
@@ -153,6 +153,7 @@ class GUI:
             button.configure(bg = playerColor) # dark player color
         elif highlight == "fade":
             if playerColor == "green":
+                print("set to faded greenhex")
                 button.configure(bg = self.fadeGreenHex) # light green
             else:
                 button.configure(bg = self.fadeRedHex) # light red
@@ -225,12 +226,12 @@ class GUI:
                 if self.whosTurn == "green": # if green is ending their turn, fade their move and unhighlight red
                     if button.cget("bg") == "green":
                         self.highlight(button, "fade", "green")
-                    elif button.cget("bg") == "red":
+                    elif (button.cget("bg") == "red") or (button.cget("bg") == self.fadeRedHex):
                         self.highlight(button, "unhighlight", "red")
                 else: # if red is ending their turn, fade their move and unhighlight green
                     if button.cget("bg") == "red":
                         self.highlight(button, "fade", "red")
-                    elif button.cget("bg") == "green":
+                    elif (button.cget("bg") == "green") or (button.cget("bg") == self.fadeGreenHex):
                         self.highlight(button, "unhighlight", "green")
         if self.whosTurn == "green":                
             self.setPlayerString("It is now red's turn")
