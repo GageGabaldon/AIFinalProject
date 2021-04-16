@@ -21,11 +21,14 @@ class Computer(Player):
         self.validMoves = []
         self.validJumpMoves = []
         self.hasHopped = False
+        self.startTime = 0
 
     # calls boardStatesHelper with the starting parameters
     def boardStates(self):
         print("Starting Board State Recursion")
+        self.startTime = time.time()
         output = self.boardStatesHelper(self.board, self.whatSide, 999, -999, 0, 0)
+        self.startTime = 0
         return output
 
     # recursively makes moves and returns back path value to find best value/move
@@ -33,7 +36,8 @@ class Computer(Player):
         # print(numMoves)
         # check if goal board state found or ran out of time, return current value
         # do NOT set gameWon, just check!!
-        if board.winCondition(whosTurn, True):
+        howManySeconds = time.time() - self.startTime
+        if board.winCondition(whosTurn, True) or howManySeconds > self.time:
             return self.utility(board, whosTurn), None, prunes, numMoves
         # depth += 1 # increment depth
         possibleMoves = self.boardMoves(board, whosTurn)

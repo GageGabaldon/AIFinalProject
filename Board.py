@@ -124,8 +124,6 @@ class Board:
                 self.gameWon = True
             redWin = True
 
-        print(f"greenCounter:{greenCounter} redCounter:{redCounter} numRed:{numberOfRedGoals} numGreen:{numberOfGreenGoals}")
-        print(self.redGoal)
         if color == "green":
             return greenWin
         else:

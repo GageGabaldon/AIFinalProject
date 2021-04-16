@@ -5,6 +5,7 @@ from GUI import GUI
 from Player import Player
 from Computer import Computer
 import sys
+import time
 
 """
 TODO: Fix bug where piece disappears if you click a piece after making a move
@@ -125,6 +126,7 @@ class HalmaGame:
     def computerMove(self):
 
         computer = self.player2
+
         bestBoardValue, bestBoardMove, prunes, numMoves = computer.boardStates()
 
         piece = bestBoardMove[0]
@@ -153,7 +155,7 @@ class HalmaGame:
 
 def main():
     size = 8
-    time = 1
+    time = .2
     whatSide = "green"
     board = Board(size, time, whatSide)
     board.getBoardInfo()
