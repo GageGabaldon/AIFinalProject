@@ -27,23 +27,34 @@ class Computer(Player):
     def boardStates(self):
         print("Starting Board State Recursion")
         self.startTime = time.time()
-        output = self.boardStatesHelper(self.board, self.whatSide, 999, -999, 0, 0)
+        output = self.boardStatesHelper(self.board, self.whatSide, 999, -999, 0, 0, 5)
         self.startTime = 0
+        print(output[0])
+        print(output[1])
+        print(output[2])
         return output
 
     # recursively makes moves and returns back path value to find best value/move
-    def boardStatesHelper(self, board, whosTurn, bestVal, worstVal, prunes, numMoves):
+    def boardStatesHelper(self, board, whosTurn, bestVal, worstVal, prunes, numMoves, level, a=float("inf"), b=float("-inf")):
         # print(numMoves)
         # check if goal board state found or ran out of time, return current value
         # do NOT set gameWon, just check!!
         howManySeconds = time.time() - self.startTime
-        if board.winCondition(whosTurn, True) or howManySeconds > self.time:
+        if board.winCondition(whosTurn, True) or howManySeconds > self.time or level <= 0:
             return self.utility(board, whosTurn), None, prunes, numMoves
+
         # depth += 1 # increment depth
         possibleMoves = self.boardMoves(board, whosTurn)
+
         # best board value for max would be the lowest sLD or for min it would be the highest sLD
-        bestBoardValue = bestVal
+        if self.whatSide == whosTurn:
+            bestBoardValue = float("inf")
+        else:
+            bestBoardValue = float("-inf")
+
         bestBoardMove = None
+
+        # for each piece in the available moves
         for tupleTriple in possibleMoves:
             piece = tupleTriple[0] # posinfo piece
             pieceCoord = piece.boardPos # posinfo piece coords
@@ -51,22 +62,25 @@ class Computer(Player):
             validJumpMoves = tupleTriple[2] # cord to jump
             for move in validMoves:
 
+                howManySeconds = time.time() - self.startTime
+                if howManySeconds > self.time:
+                    return bestBoardValue, bestBoardMove, prunes, numMoves
+
                 numMoves += 1 # keep track of number of moves made
                 # update the board with a move in order to find next depth board state
                 board.updateBoard((pieceCoord[0], pieceCoord[1]), move)
-                pathValue = self.utility(board, whosTurn)
 
                 # recursively call with whose next turn it is (will be flipping between min and max based on playerColor)
                 moveValue = None
                 movePrunes = None
                 moveBoard = None
                 if whosTurn != self.whatSide:
-                    moveOutput = self.boardStatesHelper(board, self.whatSide, bestVal, worstVal, prunes, numMoves)
+                    moveOutput = self.boardStatesHelper(board, self.whatSide, bestVal, worstVal, prunes, numMoves, level - 1, a, b)
                     moveValue = moveOutput[0]
                     movePrunes = moveOutput[2]
                     moveBoard = moveOutput[3]
                 else:
-                    moveOutput = self.boardStatesHelper(board, self.enemyColor, bestVal, worstVal, prunes, numMoves)
+                    moveOutput = self.boardStatesHelper(board, self.enemyColor, bestVal, worstVal, prunes, numMoves, level -1, a, b)
                     moveValue = moveOutput[0]
                     movePrunes = moveOutput[2]
                     moveBoard = moveOutput[3]
@@ -76,19 +90,19 @@ class Computer(Player):
 
                 # update best value/move based on whos turn it is (if its min or max we are tracking)
                 if whosTurn == self.whatSide and moveValue < bestBoardValue:
-                    bestBoardValue == moveValue
+                    bestBoardValue = moveValue
                     bestBoardMove = (piece, move)
-                    if bestBoardValue < bestVal:
-                        bestVal = bestBoardValue
+                    a = min(a, moveValue)
+
                 if whosTurn != self.whatSide and moveValue > bestBoardValue:
-                    bestBoardValue == moveValue
+                    bestBoardValue = moveValue
                     bestBoardMove = (piece, move)
-                    if bestBoardValue > worstVal:
-                        worstVal = bestBoardValue
+                    b = max(b, moveValue)
 
                 # return and end current loop through moves if bestVal meets or is worse than worstVal
-                if self.ab == True & bestVal <= worstVal:
+                if self.ab != True and b >= a:
                     return bestBoardValue, bestBoardMove, prunes + 1, numMoves
+
         # return best first move/value found, number of prunces, and number of states created.
         return bestBoardValue, bestBoardMove, prunes, numMoves
 
