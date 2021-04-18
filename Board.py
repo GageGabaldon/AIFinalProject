@@ -9,7 +9,7 @@ class Board:
         self.whatSide = whatSide
         self.endTurnHappened = False
 
-        if(whatSide == "green"):
+        if whatSide == "green":
             self.computerPieces = "red"
         else:
             self.computerPieces = "green"
@@ -151,6 +151,8 @@ class Board:
 
         pos1.updatePos("none")
         pos2.updatePos(color)
+
+
 
 # the board information at any given position
 class PosInfo:

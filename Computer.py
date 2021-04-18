@@ -27,8 +27,9 @@ class Computer(Player):
     def boardStates(self):
         print("Starting Board State Recursion")
         self.startTime = time.time()
-        output = self.boardStatesHelper(self.board, self.whatSide, 999, -999, 0, 0, 3)
+        output = self.boardStatesHelper(self.board, self.whatSide, 999, -999, 0, 0, 4)
         self.startTime = 0
+        print("values after running boardStates")
         print(output[0])
         print(output[1])
         print(output[2])
@@ -36,7 +37,6 @@ class Computer(Player):
 
     # recursively makes moves and returns back path value to find best value/move
     def boardStatesHelper(self, board, whosTurn, bestVal, worstVal, prunes, numMoves, level, a=float("inf"), b=float("-inf")):
-        # print(numMoves)
         # check if goal board state found or ran out of time, return current value
         # do NOT set gameWon, just check!!
         howManySeconds = time.time() - self.startTime
@@ -124,7 +124,8 @@ class Computer(Player):
         # find goal states of enemy color
         goalSpaces = board.getGoals()
         goals = None
-        if color == "green":
+
+        if color == "red":
             goals = goalSpaces[0]
         else:
             goals = goalSpaces[1]
@@ -154,7 +155,6 @@ class Computer(Player):
 
                     # add to total value for board
                     totalValue += shortestDistance
-        print(totalValue)
         return totalValue
 
     def pointDistance(self, p1x, p1y, p2x, p2y):
