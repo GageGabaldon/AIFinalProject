@@ -27,7 +27,7 @@ class Computer(Player):
     def boardStates(self):
         print("Starting Board State Recursion")
         self.startTime = time.time()
-        output = self.boardStatesHelper(self.board, self.whatSide, 999, -999, 0, 0, 5)
+        output = self.boardStatesHelper(self.board, self.whatSide, 999, -999, 0, 0, 3)
         self.startTime = 0
         print(output[0])
         print(output[1])
@@ -100,7 +100,7 @@ class Computer(Player):
                     b = max(b, moveValue)
 
                 # return and end current loop through moves if bestVal meets or is worse than worstVal
-                if self.ab != True and b >= a:
+                if self.ab == True and b >= a:
                     return bestBoardValue, bestBoardMove, prunes + 1, numMoves
 
         # return best first move/value found, number of prunces, and number of states created.
@@ -129,26 +129,36 @@ class Computer(Player):
         else:
             goals = goalSpaces[1]
 
-        # remove already occupied goal spaces
         for goal in goals:
-            if goal.piece == True:
+            if goal.pieceColor() == color:
                 goals.remove(goal)
 
+        # remove already occupied goal spaces
         # add up sLD to nearest unoccupied goal
         boardArray = board.getBoardArray()
         totalValue = 0
         for row in range(self.bSize):
             for col in range(self.bSize):
                 spaceInfo = boardArray[row][col]
+
                 # find each space with parameter color piece
-                shortestDistance = -999 # placeholder unti first number entered
                 if spaceInfo.piece and spaceInfo.pieceColor() == color:
+                    shortestDistance = -999 # placeholder unti first number entered
+
                     x, y = spaceInfo.boardPos
                     for goal in goals:
                         # sLD from current piece to current goal square
-                        sLD = math.sqrt( (goal.boardPos[0] - x)**2 + (goal.boardPos[1] - y)**2 )
+                        sLD = self.pointDistance(goal.boardPos[0], goal.boardPos[1], x,  y)
                         if sLD < shortestDistance or shortestDistance == -999:
                             shortestDistance = sLD
-                # add to total value for board
-                totalValue += shortestDistance
+
+                    # add to total value for board
+                    totalValue += shortestDistance
+        print(totalValue)
         return totalValue
+
+    def pointDistance(self, p1x, p1y, p2x, p2y):
+        distx = (p1x - p2x) * (p1x - p2x)
+        disty = (p1y - p2y) * (p1y - p2y)
+
+        return math.sqrt(distx + disty)

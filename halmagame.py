@@ -154,10 +154,11 @@ class HalmaGame:
 
 def main():
     size = 8
-    time = 4
+    time = 5
     whatSide = "green"
     board = Board(size, time, whatSide)
     board.getBoardInfo()
+    goals = board.getGoals()
     # move a red piece to a closer green piece with update board just give it two cord and it will update board
     # board.updateBoard((0,7), )
     player = Player(board, whatSide, myTurn = True)
