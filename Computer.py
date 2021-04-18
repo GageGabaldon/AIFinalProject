@@ -3,6 +3,36 @@ import math
 import copy
 from Player import Player
 
+"""
+Bug 1: If all the moves for computer give the same value, prioritize
+   moving into a goal state or further into a goal state
+   (it kept going back and forth since it was valid since it has no or = state)
+   something has to happen here. this prevents computer from winning(fix this)
+
+Bug 2: We need to add jump moves to computer. e.g.
+    1)iterate through jump moves first( recursion it should go first)
+    2)iterate through the other valid moves
+    3)keep track of hops (if hasHopped check for only jumpmoves, if not then return)
+
+Bug 3: should change board state based on our best move but rn it just beelines for
+     goals instead( it shouldn't let us hop as easily, maybe because sLD??).
+     take into account player's hops since hops are not included.
+
+UI Bug
+
+Timer? - physical timer or just computer idk? keep in mind
+
+some kinda tie-breaker in the utility function somewhere
+ - run thru whole utility function
+    - if piece can move in corner piece (size.b) do - 1 or somethin to
+       give it lower value(AKA higher priority?
+
+if state leads to a game win, then prioritize it. 
+
+
+"""
+
+
 class Computer(Player):
 
     def __init__(self, bSize, board, whatSide, myTurn, timeLimit, ab=True):
