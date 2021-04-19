@@ -60,15 +60,16 @@ class Computer(Player):
     def boardStates(self):
         print("Starting Board State Recursion")
         self.startTime = time.time()
-        output = self.boardStatesHelper(self.board, self.whatSide, 0, 0, 2)
+        output = self.boardStatesHelper(self.board, self.whatSide, 0, 0, 4)
         self.startTime = 0
         self.jumpdict["green"] = False
         self.jumpdict["red"] = False
         print("values after running boardStates")
-        print(output[0])
-        print(output[1][0].boardPos)
-        print(output[1][1])
-        print(output[2])
+        print(f"minimum value: {output[0]}")
+        print(f"From: {output[1][0].boardPos}")
+        print(f"To: {output[1][1]}")
+        print(f"Prunes: {output[2]}")
+        print(f"Boards: {output[3]}")
         return output
 
     # recursively makes moves and returns back path value to find best value/move
@@ -150,6 +151,8 @@ class Computer(Player):
                 if howManySeconds > self.time:
                     return bestBoardValue, bestBoardMove, prunes, numMoves
 
+                numMoves += 1
+
                 # update board object for recursion
                 board.updateBoard((pieceCoord[0], pieceCoord[1]), jmove)
                 self.jumpdict[whosTurn] = True
@@ -193,6 +196,8 @@ class Computer(Player):
                 howManySeconds = time.time() - self.startTime
                 if howManySeconds > self.time:
                     return bestBoardValue, bestBoardMove, prunes, numMoves
+
+                numMoves += 1
 
                  # update the board with a move in order to find next depth board state
                 board.updateBoard((pieceCoord[0], pieceCoord[1]), move)

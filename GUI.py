@@ -221,7 +221,6 @@ class GUI:
             self.setPlayerString("")
             return
 
-        self.boardObject.getBoardInfo()
         # loop to look through all buttons and find appropiate
         for row in self.buttonArray:
             for button in row:
