@@ -272,7 +272,6 @@ class Computer(Player):
         disty = (p1y - p2y) * (p1y - p2y)
 
         return math.sqrt(distx + disty)
-<<<<<<< HEAD
 
     # do move generator logic and save into valid moves for later
     def newGen(self, cord, hopped):
@@ -314,5 +313,3 @@ class Computer(Player):
                         poss_moves.append(sur_space.boardPos)
         if hopped:
             return jump_moves
-=======
->>>>>>> 48855d08f3dc26daf5a90cb64819b528d8077bc8
