@@ -54,22 +54,29 @@ class Computer(Player):
         self.jumpdict["green"] = False
         self.jumpdict["red"] = False
         self.startTime = 0
+        self.abcounter = 0
+        self.boardCounter = 0
 
 
     # calls boardStatesHelper with the starting parameters
     def boardStates(self):
+        ply = 4
         print("Starting Board State Recursion")
         self.startTime = time.time()
-        output = self.boardStatesHelper(self.board, self.whatSide, 0, 0, 4)
+        output = self.boardStatesHelper(self.board, self.whatSide, 0, 0, ply)
+
         self.startTime = 0
         self.jumpdict["green"] = False
         self.jumpdict["red"] = False
         print("values after running boardStates")
-        print(f"minimum value: {output[0]}")
+        print(f"Minimum value: {output[0]}")
         print(f"From: {output[1][0].boardPos}")
         print(f"To: {output[1][1]}")
-        print(f"Prunes: {output[2]}")
-        print(f"Boards: {output[3]}")
+        print(f"Ply: {ply}")
+        print(f"Prunes: {self.abcounter}")
+        print(f"Boards: {self.boardCounter}")
+        self.abcounter = 0
+        self.boardCounter = 0
         return output
 
     # recursively makes moves and returns back path value to find best value/move
@@ -78,7 +85,6 @@ class Computer(Player):
         # do NOT set gameWon, just check!!
         board.getBoardInfo()
         howManySeconds = time.time() - self.startTime
-        print(howManySeconds)
         if board.winCondition(whosTurn, True) or howManySeconds > self.time or level <= 0:
             return self.utility(board, whosTurn), None, prunes, numMoves
 
@@ -101,6 +107,7 @@ class Computer(Player):
                 if howManySeconds > self.time:
                     return bestBoardValue, bestBoardMove, prunes, numMoves
                 numMoves += 1
+                self.boardCounter += 1
                 board.updateBoard((piece[0], piece[1]), jmove1)
                 # recursively call with whose next turn it is (will be flipping between min and max based on playerColor)
                 moveValue = None
@@ -132,6 +139,7 @@ class Computer(Player):
                     b = max(b, moveValue)
 
                 if self.ab and b >= a:
+                    self.abcounter += 1
                     return bestBoardValue, bestBoardMove, prunes + 1, numMoves
 
             return bestBoardValue, bestBoardMove, prunes, numMoves
@@ -152,6 +160,7 @@ class Computer(Player):
                     return bestBoardValue, bestBoardMove, prunes, numMoves
 
                 numMoves += 1
+                self.boardCounter += 1
 
                 # update board object for recursion
                 board.updateBoard((pieceCoord[0], pieceCoord[1]), jmove)
@@ -188,6 +197,7 @@ class Computer(Player):
                     b = max(b, moveValue)
 
                 if self.ab and b >= a:
+                    self.abcounter += 1
                     return bestBoardValue, bestBoardMove, prunes + 1, numMoves
 
             # checkt the other non jumping moves
@@ -198,6 +208,7 @@ class Computer(Player):
                     return bestBoardValue, bestBoardMove, prunes, numMoves
 
                 numMoves += 1
+                self.boardCounter += 1
 
                  # update the board with a move in order to find next depth board state
                 board.updateBoard((pieceCoord[0], pieceCoord[1]), move)
@@ -233,6 +244,7 @@ class Computer(Player):
 
                 # return and end current loop through moves if bestVal meets or is worse than worstVal
                 if self.ab and b >= a:
+                    self.abcounter += 1
                     return bestBoardValue, bestBoardMove, prunes + 1, numMoves
 
         # return best first move/value found, number of prunces, and number of states created.

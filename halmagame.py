@@ -151,7 +151,7 @@ def main():
     board.getBoardInfo()
     # move a red piece to a closer green piece with update board just give it two cord and it will update board
     player = Player(board, whatSide, myTurn = True)
-    computer = Computer(size, board, "red", False, time, ab=True)
+    computer = Computer(size, board, "red", False, time, ab=False)
     #game = HalmaGame(board, player, player2)
     game = HalmaGame(board, player, computer)
     game.root.mainloop()
