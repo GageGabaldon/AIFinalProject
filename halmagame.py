@@ -8,17 +8,8 @@ import sys
 import time
 
 """
-TODO: Fix bug where piece disappears if you click a piece after making a move
-TODO: Move generator doesnt work on board edges
-TODO: Move generator doesnt hop over Piece
-TODO: NEED to update the piece after a move and be able to move that piece again if a hop is available
-      FOR EXAMPLE a moveGenerator that can change what moves are valid if the piece has moved once
-      to only generate valid moves if those move jump an enemy piece
-      TLDR: need to be able to move a piece again if it can hop over another pieces
-TODO: Timer must start working and time down from the timeLimit to 0 at zero should change board.endTurnHappened
-      to true that way the next player starts moving
-TODO: Test if the game has been won
-TODO: test the rest of the playign of the game.
+tieBreaker function that does sLD which we have in Computer class already
+   whoever has the lowest sLD wins. if its equal: tie game
 """
 
 class HalmaGame:
