@@ -114,9 +114,9 @@ class HalmaGame:
             else:
                 self.player2.endTurn()
                 self.player1.turn = True
+
             # set the board end clicked to false
             self.board.endTurnHappened = False
-        #self.gui.disableButtons(False)
 
         # if it is not player's turn
         if self.player2.turn:
@@ -139,10 +139,10 @@ class HalmaGame:
         self.gui.highlight(self.boardArray[moveCoord[0]][moveCoord[1]], "highlight", self.player2.whatSide)
         computer.piece = moveCoord
 
-        if(self.player1.turn):
+        if self.player1.turn:
             won = self.board.winCondition(self.player1.whatSide, False)
             print(won)
-            if(won):
+            if won:
                 self.gui.setStatusString("Player 1 has won")
         else:
             won = self.board.winCondition(self.player2.whatSide, False)
@@ -158,10 +158,7 @@ def main():
     whatSide = "green"
     board = Board(size, time, whatSide)
     board.getBoardInfo()
-    goals = board.getGoals()
     # move a red piece to a closer green piece with update board just give it two cord and it will update board
-
-
     player = Player(board, whatSide, myTurn = True)
     #player2 = Player(board, "red", myTurn = False)
     computer = Computer(size, board, "red", False, time, ab=True)

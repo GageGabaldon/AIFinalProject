@@ -152,8 +152,6 @@ class Board:
         pos1.updatePos("none")
         pos2.updatePos(color)
 
-
-
 # the board information at any given position
 class PosInfo:
     def __init__(self, boardPos, piece, color, goal, colorGoal):
