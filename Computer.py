@@ -59,8 +59,9 @@ class Computer(Player):
 
 
     # calls boardStatesHelper with the starting parameters
-    def boardStates(self):
+    def boardStates(self, gui):
         ply = 2
+        self.gui = gui
         print("Starting Board State Recursion")
         self.startTime = time.time()
         output = self.boardStatesHelper(self.board, self.whatSide, 0, 0, ply)
@@ -77,14 +78,15 @@ class Computer(Player):
         print(f"Boards: {self.boardCounter}")
         self.abcounter = 0
         self.boardCounter = 0
+        self.gui.update_clock("Unlimited")
         return output
 
     # recursively makes moves and returns back path value to find best value/move
     def boardStatesHelper(self, board, whosTurn, prunes, numMoves, level, a=float("inf"), b=float("-inf"), pieceJumping=None):
         # check if goal board state found or ran out of time, return current value
         # do NOT set gameWon, just check!!
-        board.getBoardInfo()
         howManySeconds = time.time() - self.startTime
+        self.gui.update_clock(howManySeconds)
         if board.winCondition(whosTurn, True) or howManySeconds > self.time or level <= 0:
             return self.utility(board, whosTurn), None, prunes, numMoves
 
@@ -128,12 +130,12 @@ class Computer(Player):
                 board.updateBoard(jmove1, (piece[0], piece[1]))
 
                 # update best value/move based on whos turn it is (if its min or max we are tracking)
-                if whosTurn == self.whatSide and moveValue < bestBoardValue:
+                if whosTurn == self.whatSide and moveValue <= bestBoardValue:
                     bestBoardValue = moveValue
                     bestBoardMove = (piece, jmove1)
                     a = min(a, moveValue)
 
-                if whosTurn != self.whatSide and moveValue > bestBoardValue:
+                if whosTurn != self.whatSide and moveValue >= bestBoardValue:
                     bestBoardValue = moveValue
                     bestBoardMove = (piece, jmove1)
                     b = max(b, moveValue)
@@ -186,12 +188,12 @@ class Computer(Player):
                 self.jumpdict[whosTurn] = False
 
                 # update best value/move based on whos turn it is (if its min or max we are tracking)
-                if whosTurn == self.whatSide and moveValue < bestBoardValue:
+                if whosTurn == self.whatSide and moveValue <= bestBoardValue:
                     bestBoardValue = moveValue
                     bestBoardMove = (piece, jmove)
                     a = min(a, moveValue)
 
-                if whosTurn != self.whatSide and moveValue > bestBoardValue:
+                if whosTurn != self.whatSide and moveValue >= bestBoardValue:
                     bestBoardValue = moveValue
                     bestBoardMove = (piece, jmove)
                     b = max(b, moveValue)
@@ -231,12 +233,12 @@ class Computer(Player):
                 board.updateBoard(move, (pieceCoord[0], pieceCoord[1]))
 
                 # update best value/move based on whos turn it is (if its min or max we are tracking)
-                if whosTurn == self.whatSide and moveValue < bestBoardValue:
+                if whosTurn == self.whatSide and moveValue <= bestBoardValue:
                     bestBoardValue = moveValue
                     bestBoardMove = (piece, move)
                     a = min(a, moveValue)
 
-                if whosTurn != self.whatSide and moveValue > bestBoardValue:
+                if whosTurn != self.whatSide and moveValue >= bestBoardValue:
                     bestBoardValue = moveValue
                     bestBoardMove = (piece, move)
                     b = max(b, moveValue)
@@ -266,6 +268,7 @@ class Computer(Player):
         # find goal states of enemy color
         goalSpaces = board.getGoals()
         goals = None
+        totalValue = 0
 
         if color == "red":
             goals = goalSpaces[0]
@@ -275,11 +278,11 @@ class Computer(Player):
         for goal in goals:
             if goal.pieceColor() == color:
                 goals.remove(goal)
+                totalValue -= 2
 
         # remove already occupied goal spaces
         # add up sLD to nearest unoccupied goal
         boardArray = board.getBoardArray()
-        totalValue = 0
         for row in range(self.bSize):
             for col in range(self.bSize):
                 spaceInfo = boardArray[row][col]

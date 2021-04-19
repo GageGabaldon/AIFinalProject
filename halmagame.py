@@ -117,7 +117,7 @@ class HalmaGame:
 
         computer = self.player2
 
-        bestBoardValue, bestBoardMove, prunes, numMoves = computer.boardStates()
+        bestBoardValue, bestBoardMove, prunes, numMoves = computer.boardStates(self.gui)
 
         piece = bestBoardMove[0]
         pieceCoord = piece.boardPos

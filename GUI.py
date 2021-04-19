@@ -39,7 +39,7 @@ class GUI:
         # create timer above board
         self.clock = StringVar()
         self.timer = tk.Label(self.mainWindow, text = self.clock, justify = "center")
-        self.clock.set("0:00:00")
+        self.clock.set("Unlimited")
         self.timer.columnconfigure(0)
         self.timer.pack()
 
@@ -70,10 +70,7 @@ class GUI:
         self.endTurnButton.columnconfigure(4)
         self.endTurnButton.pack()
 
-        # start the timer
-        self.timer.after(1000, self.update_clock)
-        self.timeLimit = time
-        self.update_clock()
+        self.update_clock("Unlimited");
 
         # variable that flips every time end turn is triggered to display whose turn it is
         self.whosTurn = "green"
@@ -144,8 +141,6 @@ class GUI:
             self.buttonArray.append(tempArray) 
         self.createBoardLabels(halmaGame.bSize)
 
-    def resetTimer(self, halmaGame):
-        pass
 
     def highlight(self, button, highlight, playerColor):
         if highlight == "highlight":
@@ -161,10 +156,9 @@ class GUI:
         else:
             button.configure(bg = self.defaultHex) # default border color
 
-    def update_clock(self):
-        now = time.strftime("%H:%M:%S")
+    def update_clock(self, time):
+        now = str(time)
         self.timer.configure(text=now)
-        self.timer.after(1000, self.update_clock)
 
     # the goal states are getting deleted and the piece is getting deleted
     def updateGUI(self, board, piece, newPos, buttonArray):
