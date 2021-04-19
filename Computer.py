@@ -61,14 +61,15 @@ class Computer(Player):
         self.startTime = 0
         print("values after running boardStates")
         print(output[0])
-        print(output[1])
-        print(output[2])
+        print(output[1][0].boardPos)
+        print(output[1][1])
         return output
 
     # recursively makes moves and returns back path value to find best value/move
     def boardStatesHelper(self, board, whosTurn, prunes, numMoves, level, jumped, pieceJumping=None, a=float("inf"), b=float("-inf")):
         # check if goal board state found or ran out of time, return current value
         # do NOT set gameWon, just check!!
+        board.getBoardInfo()
         howManySeconds = time.time() - self.startTime
         if board.winCondition(whosTurn, True) or howManySeconds > self.time or level <= 0:
             return self.utility(board, whosTurn), None, prunes, numMoves
@@ -85,41 +86,40 @@ class Computer(Player):
         if jumped:
             piece = pieceJumping
             moves = self.newGen(piece, True)
-            for jmove in moves:
-                numMoves += 1
-                board.updateBoard((piece[0], piece[1]), jmove)
-                # recursively call with whose next turn it is (will be flipping between min and max based on playerColor)
-                moveValue = None
-                movePrunes = None
-                moveBoard = None
-                if whosTurn != self.whatSide:
-                    moveOutput = self.boardStatesHelper(board, self.whatSide, prunes, numMoves, level - 1, True, jmove, a, b)
-                    moveValue = moveOutput[0]
-                    movePrunes = moveOutput[2]
-                    moveBoard = moveOutput[3]
-                else:
-                    moveOutput = self.boardStatesHelper(board, self.enemyColor, prunes, numMoves, level - 1, True, jmove, a, b)
-                    moveValue = moveOutput[0]
-                    movePrunes = moveOutput[2]
-                    moveBoard = moveOutput[3]
+            if len(moves) != 0:
+                for jmove1 in moves:
+                    numMoves += 1
+                    board.updateBoard((piece[0], piece[1]), jmove1)
+                    # recursively call with whose next turn it is (will be flipping between min and max based on playerColor)
+                    moveValue = None
+                    movePrunes = None
+                    moveBoard = None
+                    if whosTurn != self.whatSide:
+                        moveOutput = self.boardStatesHelper(board, self.whatSide, prunes, numMoves, level - 1, True, jmove1, a, b)
+                        moveValue = moveOutput[0]
+                        movePrunes = moveOutput[2]
+                        moveBoard = moveOutput[3]
+                    else:
+                        moveOutput = self.boardStatesHelper(board, self.enemyColor, prunes, numMoves, level - 1, True, jmove1, a, b)
+                        moveValue = moveOutput[0]
+                        movePrunes = moveOutput[2]
+                        moveBoard = moveOutput[3]
 
-                # reset original board
-                board.updateBoard(jmove, (piece[0], piece[1]))
+                    # reset original board
+                    board.updateBoard(jmove1, (piece[0], piece[1]))
 
-                # update best value/move based on whos turn it is (if its min or max we are tracking)
-                if whosTurn == self.whatSide and moveValue < bestBoardValue:
-                    bestBoardValue = moveValue
-                    bestBoardMove = (piece, jmove)
-                    a = min(a, moveValue)
+                    # update best value/move based on whos turn it is (if its min or max we are tracking)
+                    if whosTurn == self.whatSide and moveValue < bestBoardValue:
+                        bestBoardValue = moveValue
+                        bestBoardMove = (piece, jmove1)
+                        a = min(a, moveValue)
 
-                if whosTurn != self.whatSide and moveValue > bestBoardValue:
-                    bestBoardValue = moveValue
-                    bestBoardMove = (piece, jmove)
-                    b = max(b, moveValue)
-
-                # return and end current loop through moves if bestVal meets or is worse than worstVal
-                if self.ab == True and b >= a:
-                    return bestBoardValue, bestBoardMove, prunes + 1, numMoves
+                    if whosTurn != self.whatSide and moveValue > bestBoardValue:
+                        bestBoardValue = moveValue
+                        bestBoardMove = (piece, jmove1)
+                        b = max(b, moveValue)
+            else:
+                return self.utility(board, whosTurn), None, prunes, numMoves
 
             return bestBoardValue, bestBoardMove, prunes, numMoves
 
@@ -132,8 +132,10 @@ class Computer(Player):
             pieceCoord = piece.boardPos # posinfo piece coords
             validMoves = tupleTriple[1] # coord to move to
             validJumpMoves = tupleTriple[2] # cord to jump
+            print(validJumpMoves)
 
             for jmove in validJumpMoves:
+                print("no")
                 howManySeconds = time.time() - self.startTime
                 if howManySeconds > self.time:
                     return bestBoardValue, bestBoardMove, prunes, numMoves
@@ -168,6 +170,8 @@ class Computer(Player):
                     bestBoardValue = moveValue
                     bestBoardMove = (piece, jmove)
                     b = max(b, moveValue)
+
+            # checkt the other non jumping moves
             for move in validMoves:
                 # timing to end recursion
                 howManySeconds = time.time() - self.startTime
@@ -187,7 +191,7 @@ class Computer(Player):
                     movePrunes = moveOutput[2]
                     moveBoard = moveOutput[3]
                 else:
-                    moveOutput = self.boardStatesHelper(board, self.enemyColor, prunes, numMoves, level -1, False, a, b)
+                    moveOutput = self.boardStatesHelper(board, self.enemyColor, prunes, numMoves, level - 1, False, a, b)
                     moveValue = moveOutput[0]
                     movePrunes = moveOutput[2]
                     moveBoard = moveOutput[3]
@@ -221,9 +225,8 @@ class Computer(Player):
             for col in range(self.bSize):
                 if board[row][col].color == playerColor: # find player color piece
                     piece = board[row][col]
-                    self.moveGenerator((row, col)) # calculate possible moves of that piece
-                    validMoves, jumpMoves = self.getValidMoves()
-                    moves.append((piece, validMoves, jumpMoves)) # append as tuple pairs
+                    output = self.newGen((row, col), False) # calculate possible moves of that piece
+                    moves.append((piece, output[1], output[0])) # append as tuple pairs
         return moves
 
     # only currently uses straight line distance formula. bare bones.
@@ -313,3 +316,5 @@ class Computer(Player):
                         poss_moves.append(sur_space.boardPos)
         if hopped:
             return jump_moves
+        else:
+            return jump_moves, poss_moves

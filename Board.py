@@ -131,9 +131,12 @@ class Board:
 
     # displays the board information to the user
     def getBoardInfo(self):
+        string = ""
         for col in range(0, self.bSize):
+            string = ""
             for row in range(0, self.bSize):
-                self.boardArray[col][row].displayInfo()
+                string += self.boardArray[col][row].displayGraphically()
+            print(string)
 
     def getGoals(self):
         red = self.redGoal.copy()
@@ -185,3 +188,11 @@ class PosInfo:
 
     def displayInfo(self):
         print(str(self.boardPos) + " " + str(self.color) + " " + str(self.colorGoal))
+
+    def displayGraphically(self):
+        if self.color == "none":
+            return " . "
+        elif self.color == "red":
+            return " R "
+        else:
+            return " G "
