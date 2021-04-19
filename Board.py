@@ -145,6 +145,7 @@ class Board:
     def getBoardArray(self):
         return self.boardArray
 
+
     # assume input is valid
     def updateBoard(self, piece, newPos):
         pos1 = self.boardArray[piece[0]][piece[1]]

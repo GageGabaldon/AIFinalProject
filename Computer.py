@@ -345,9 +345,17 @@ class Computer(Player):
                         if (jump_space_row < board_size and jump_space_row >= 0) and (
                                 jump_space_col < board_size and jump_space_col >= 0):
                             if not board_arr[jump_space_row][jump_space_col].piece:
+                                if curr_space.colorGoal == curr_space.color:
+                                    if sur_space.colorGoal == curr_space.color:
+                                        jump_moves.append((jump_space_row, jump_space_col))
+                                else:
                                     jump_moves.append((jump_space_row, jump_space_col))
                     else:
-                        poss_moves.append(sur_space.boardPos)
+                        if curr_space.colorGoal == curr_space.color:
+                            if sur_space.colorGoal == curr_space.color:
+                                poss_moves.append(sur_space.boardPos)
+                        else:
+                            poss_moves.append(sur_space.boardPos)
         if hopped:
             return jump_moves
         else:
