@@ -60,7 +60,7 @@ class Computer(Player):
 
     # calls boardStatesHelper with the starting parameters
     def boardStates(self):
-        ply = 4
+        ply = 2
         print("Starting Board State Recursion")
         self.startTime = time.time()
         output = self.boardStatesHelper(self.board, self.whatSide, 0, 0, ply)
@@ -207,7 +207,6 @@ class Computer(Player):
                 if howManySeconds > self.time:
                     return bestBoardValue, bestBoardMove, prunes, numMoves
 
-                numMoves += 1
                 self.boardCounter += 1
 
                  # update the board with a move in order to find next depth board state
