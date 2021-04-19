@@ -28,36 +28,35 @@ class Board:
 
     # generates the goal states to be used.
     def getGoal(self):
-        redgoal = [[0, self.bSize - 1], [0, self.bSize - 2], [0, self.bSize -3], [0, self.bSize - 4],
-                   [1, self.bSize - 1], [1, self.bSize - 2], [1, self.bSize - 3], [2, self.bSize -1], [2, self.bSize - 2],
-                   [3, self.bSize - 1]]
-        greengoal = [[self.bSize -1, 0], [self.bSize - 2, 0], [self.bSize - 3, 0], [self.bSize - 4, 0], [self.bSize - 1, 1 ],
-                     [self.bSize - 2, 1], [self.bSize - 3, 1], [self.bSize - 1, 2], [self.bSize - 2, 2],
-                     [self.bSize - 1, 3]]
+        redgoal = [[0, 0], [0, 1], [0, 2], [0, 3], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [3, 0]]
+        greengoal = [[self.bSize - 1, self.bSize - 1], [self.bSize - 2, self.bSize - 1], [self.bSize - 3, self.bSize - 1],
+                     [self.bSize - 4, self.bSize - 1], [self.bSize - 1, self.bSize - 2], [self.bSize - 2, self.bSize - 2],
+                     [self.bSize - 3, self.bSize - 2], [self.bSize - 1, self.bSize - 3], [self.bSize - 2, self.bSize - 3],
+                     [self.bSize - 1, self .bSize - 4]]
 
         if self.bSize == 10 or self.bSize == 16:
-            redgoal.append([0, self.bSize - 5])
-            redgoal.append([1, self.bSize - 4])
-            redgoal.append([2, self.bSize - 3])
-            redgoal.append([3, self.bSize - 2])
-            redgoal.append([4, self.bSize - 1])
+            redgoal.append([0, 4])
+            redgoal.append([1, 3])
+            redgoal.append([2, 2])
+            redgoal.append([3, 1])
+            redgoal.append([4, 0])
 
-            greengoal.append([self.bSize - 5, 0])
-            greengoal.append([self.bSize - 4, 1])
-            greengoal.append([self.bSize - 3, 2])
-            greengoal.append([self.bSize - 2, 3])
-            greengoal.append([self.bSize - 1, 4])
+            greengoal.append([self.bSize - 5, self.bSize - 1])
+            greengoal.append([self.bSize - 4, self.bSize - 2])
+            greengoal.append([self.bSize - 3, self.bSize - 3])
+            greengoal.append([self.bSize - 2, self.bSize - 4])
+            greengoal.append([self.bSize - 1, self.bSize - 5])
 
             if self.bSize == 16:
-                redgoal.append([1, self.bSize - 5])
-                redgoal.append([2, self.bSize - 4])
-                redgoal.append([3, self.bSize - 3])
-                redgoal.append([4, self.bSize - 2])
+                redgoal.append([1, 4])
+                redgoal.append([2, 3])
+                redgoal.append([3, 2])
+                redgoal.append([4, 1])
 
-                greengoal.append([self.bSize - 5, 1])
-                greengoal.append([self.bSize - 4, 2])
-                greengoal.append([self.bSize - 3, 3])
-                greengoal.append([self.bSize - 2, 4])
+                greengoal.append([self.bSize - 5, self.bSize - 2])
+                greengoal.append([self.bSize - 4, self.bSize - 3])
+                greengoal.append([self.bSize - 3, self.bSize - 4])
+                greengoal.append([self.bSize - 2, self.bSize - 5])
 
         return (redgoal, greengoal)
 

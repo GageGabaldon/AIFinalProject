@@ -65,15 +65,16 @@ class Player:
                     sur_space = board_arr[i][j] #surrounding space
                     if sur_space.piece:# if sur_piece is a piece
                         # if is enemy piece
-                        if sur_space.color != self.whatSide:
-                            difference_row = i - row # surrounding piece pos - current piece pos
-                            difference_col = j - col # surrounding piece pos - current piece pos
-                            # add this difference to the surrounding piece, to then find
-                            # the space we land after jumping
-                            jump_space_row = i + difference_row
-                            jump_space_col = j + difference_col
-                            # only space you can land if trying to jump, append to poss moves.
-                            if (jump_space_row < board_size and jump_space_row >= 0) and ( jump_space_col < board_size and jump_space_col >= 0):
+                        difference_row = i - row # surrounding piece pos - current piece pos
+                        difference_col = j - col # surrounding piece pos - current piece pos
+                        # add this difference to the surrounding piece, to then find
+                        # the space we land after jumping
+                        jump_space_row = i + difference_row
+                        jump_space_col = j + difference_col
+                        # only space you can land if trying to jump, append to poss moves.
+                        if (jump_space_row < board_size and jump_space_row >= 0) and ( jump_space_col < board_size and jump_space_col >= 0):
+                            # check to see if the
+                            if not board_arr[jump_space_row][jump_space_col].piece:
                                 jump_moves.append((jump_space_row, jump_space_col))
                     else:
                         poss_moves.append(sur_space.boardPos)   
@@ -83,12 +84,4 @@ class Player:
         else:
             self.validMoves = poss_moves
             self.validJumpMoves = jump_moves
-        #print(f"valid moves {poss_moves}")
-        #print(f"jump moves {jump_moves}")
 
-        #eg if piece being moved is at (0,0) then it can move to
-           # (0,1), (1,0), (1, 1). (assuming space not occupied)
-
-
-           #if there is an enemy piece in adjacent space positionInfo
-           #it can jump the enemy piece if there is an open space after tha
