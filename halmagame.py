@@ -65,26 +65,37 @@ class HalmaGame:
                         # call move generator again.
                         self.player1.moveGenerator((row, column))
                     else:
-                        self.player1.resetPlayer() #################Randy Added this
+                        if not self.player1.madeMove:
+                            pass
                         # no more valid moves to move too.
-                        self.gui.setStatusString("Invalid move to move to already moved that piece")
                 elif self.player1.isValidMoves((row, column)):
                     # update the board object and the ui
                     self.board.updateBoard(self.player1.piece, (row, column))
                     self.gui.updateGUI(self.board, self.player1.piece, (row, column), self.boardArray)
                     self.gui.highlight(self.boardArray[row][column], "highlight", self.player1.whatSide)
                     self.player1.piece = (row, column)
+                    self.player1.madeMove = True
                 else:
-                    self.gui.setStatusString("Invalid move to move, select again")
+                    print(self.player1.lastPos)
+                    print(f"{row}, {column}")
+                    if self.player1.lastPos == (row, column):
+                        self.player1.madeMove = False
+                        self.board.updateBoard(self.player1.piece, self.player1.lastPos)
+                        self.gui.updateGUI(self.board, self.player1.piece, self.player1.lastPos, self.boardArray)
+                        self.gui.highlight(self.boardArray[row][column], "unhighlight", self.player1.whatSide)
+                        self.gui.highlight(self.boardArray[self.player1.piece[0]][self.player1.piece[1]], "unhighlight", self.player1.whatSide)
+                        self.player1.resetPlayer()
+                    else:
+                        self.gui.setStatusString("Invalid move to move, select again")
             else:
                 # check if the click position is a piece to move
                 if self.player1.isValidPiece((row, column)):
+                    self.player1.lastPos = (row, column)
                     # generate all the moves that piece can move to
                     self.player1.moveGenerator((row, column))
                     self.player1.piece = (row, column)
                     self.player1.gotPiece = True
                     self.gui.highlight(self.boardArray[row][column], "highlight", self.player1.whatSide)
-
                 else:
                     self.gui.setStatusString("Invalid piece to move. Please select a valid piece")
 

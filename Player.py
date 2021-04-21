@@ -9,6 +9,8 @@ class Player:
         self.validMoves = []
         self.validJumpMoves = []
         self.hasHopped = False
+        self.madeMove = False
+        self.lastPos = (-1, -1)
 
     # checks if the move being made is valid
     def isValidMoves(self, coord):
@@ -37,14 +39,16 @@ class Player:
         self.gotPiece = False
         self.validMoves = []
         self.hasHopped = False
+        self.madeMove = False
 
 ######################################################## Randy added
     def resetPlayer(self):
         self.turn = True
         self.piece = (-1, -1)
         self.gotPiece = False
-        self.validMoves = getValidMoves(self)
+        self.validMoves = []
         self.hasHopped = False
+        self.lastPos = (-1, -1)
 
 
 ########################################################
