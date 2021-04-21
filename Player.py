@@ -38,6 +38,17 @@ class Player:
         self.validMoves = []
         self.hasHopped = False
 
+######################################################## Randy added
+    def resetPlayer(self):
+        self.turn = True
+        self.piece = (-1, -1)
+        self.gotPiece = False
+        self.validMoves = getValidMoves(self)
+        self.hasHopped = False
+
+
+########################################################
+
     # do move generator logic and save into valid moves for later
     def moveGenerator(self, cord):
         #get the piece being moved

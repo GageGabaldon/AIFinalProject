@@ -65,6 +65,7 @@ class HalmaGame:
                         # call move generator again.
                         self.player1.moveGenerator((row, column))
                     else:
+                        self.player1.resetPlayer() #################Randy Added this
                         # no more valid moves to move too.
                         self.gui.setStatusString("Invalid move to move to already moved that piece")
                 elif self.player1.isValidMoves((row, column)):
